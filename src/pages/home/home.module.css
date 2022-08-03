@@ -1,0 +1,12 @@
+.cardframe{
+    display: grid;
+    min-height: 96vh;
+    grid-template-columns: repeat(auto-fit,minmax(300px,3fr));
+    text-align: center;
+    color: #fff;
+    background-image: linear-gradient( 62deg ,rgba(0,0,0)  , rgb(20, 32, 27),rgba(0,0,0),rgb(20, 32, 27) 60% );
+}
+.bg{
+    min-height: 96vh; 
+    background-image: linear-gradient( 62deg ,rgba(0,0,0)  , rgb(20, 32, 27),rgba(0,0,0),rgb(20, 32, 27) 60% );
+}

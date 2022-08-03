@@ -1,0 +1,19 @@
+.navbar{
+    z-index: 80;
+}
+.noNav{
+    display:none;
+}
+.button{
+    padding: 10px 5px;
+    color: rgba(0, 255, 255, 0.712);
+    background: #333;
+}
+.nav{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    background-position: 20% 50%;
+    background-image:url("https://wallup.net/wp-content/uploads/2016/01/258808-Pacman-video_games-simple-colorful-classics-black_background-748x421.jpg");
+}
+

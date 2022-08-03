@@ -1,0 +1,16 @@
+.numero{
+    list-style: none;
+    background:#227979;
+    display:inline-block;
+    margin: 0.7em;
+    padding:0.3em;
+    border-radius:50%;
+    color: #fff;
+    font-weight:bold;
+}
+.button{
+    margin: 0.7em;
+    background:rgba(219, 184, 94, 0.9);
+    padding:0.3em;
+    border-radius:70% 70% 70% 70%;
+}

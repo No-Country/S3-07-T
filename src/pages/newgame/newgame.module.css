@@ -1,0 +1,28 @@
+.ctn{
+    display:grid;
+    min-height: 96vh;
+    grid-template-columns: repeat(auto-fit,minmax(600px,2fr));
+    text-align: center;
+    min-height: 96vh;
+    color:#fff; 
+    background-image: linear-gradient( 62deg ,rgba(0,0,0)  , rgb(20, 32, 27),rgba(0,0,0),rgb(20, 32, 27) 60% );
+}
+.form{
+    display: grid;
+    width: 100%;
+    max-width: 500px;
+    height: 75vh;
+    margin: auto;
+}
+input{
+    background: #ccc;
+}
+
+.danger {
+    border: #ff8900 2.6px solid;
+}
+.error{
+    color:#ff8900;
+    
+    
+}
