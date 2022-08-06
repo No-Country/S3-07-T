@@ -1,14 +1,14 @@
+
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
-
 const bodyParser = require("body-parser");
-const app = express();
 const morgan = require('morgan');
-
-const routes = require('./api');
+// const routes = require('./api');
 require('dotenv').config();
 const PORT = process.env.PORT || 3001; // Step 1
+const routesAuth=require("./Routes/routesAuth")
+const app = express();
 
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 const urlMongo="mongodb+srv://noCountry:1234equipo@nocountry.uwoxl.mongodb.net/test"
@@ -50,6 +50,8 @@ app.listen(PORT, console.log(`Server is starting at ${PORT}`));
 
 /////////////////////
 app.use(morgan('tiny'));
-app.use('/api', routes);
 
+
+// app.use('/api', routes);
+app.use("/api", routesAuth)
 
