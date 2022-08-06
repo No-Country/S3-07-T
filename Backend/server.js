@@ -8,6 +8,7 @@ const morgan = require('morgan');
 require('dotenv').config();
 const PORT = process.env.PORT || 3001; // Step 1
 const routesAuth=require("./Routes/routesAuth")
+const routesRoles=require("./Routes/routesRoles")
 const app = express();
 
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
@@ -54,4 +55,4 @@ app.use(morgan('tiny'));
 
 // app.use('/api', routes);
 app.use("/api", routesAuth)
-
+app.use("/api", routesRoles)

@@ -7,6 +7,7 @@ const userSchema = new Schema({
   // lastName: { type: String, require: true },
   email: { type: String, require: true },
   password: { type: String, require: true },
+  roles:[{type:Schema.Types.ObjectId, ref:"Roles"}]
   // avatar: { type: String, require: true },
   // description: { type: String, require: true },
   // projects:{type:Schema.Types.ObjectId, ref:"Project"},
@@ -19,7 +20,7 @@ userSchema.statics.passwordCode=async (password)=>{
   return await bcrypt.hash(password,encryp)
 }
 
-userSchema.statics.passwordCompare=async (password,passwordRecep)=>{
+userSchema.statics.comparePassword=async (password,passwordRecep)=>{  
   return await bcrypt.compare(password.passwordRecep)
 }
 
