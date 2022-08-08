@@ -4,8 +4,9 @@
   "description": "this is backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "babel-node server.js --exec",
+    "dev": "nodemon server.js --exec babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "node",
@@ -15,6 +16,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/node": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv-cli": "^6.0.0",

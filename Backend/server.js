@@ -1,21 +1,24 @@
-
-const mongoose = require("mongoose");
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const morgan = require('morgan');
+import mongoose from "mongoose";
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import dotenv from "dotenv";
 // const routes = require('./api');
-require('dotenv').config();
-const PORT = process.env.PORT || 3001; // Step 1
-const routesAuth=require("./Routes/routesAuth")
-const routesRoles=require("./Routes/routesRoles")
-const app = express();
+// routes
+import routesAuth from "./Routes/routesAuth";
+import routesRoles from "./Routes/routesRoles";
 
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
-const urlMongo="mongodb+srv://noCountry:1234equipo@nocountry.uwoxl.mongodb.net/test"
+const app = express();
+
+dotenv.config();
+
+const urlMongo = process.env.DB_URL;
+const PORT = process.env.PORT || 3001; // Step 1
 
 mongoose.connect(
-  urlMongo || 'mongodb://localhost/mern_youtube',
+  urlMongo || "mongodb://localhost/mern_youtube",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -24,7 +27,6 @@ mongoose.connect(
     console.log("Mongoose Is Connected");
   }
 );
-
 
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static('client/build'));
@@ -40,7 +42,6 @@ app.use(
   })
 );
 
-
 //----------------------------------------- END OF ROUTES---------------------------------------------------
 //Start Server
 // app.listen(PORT, () => {
@@ -50,9 +51,8 @@ app.use(
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
 
 /////////////////////
-app.use(morgan('tiny'));
-
+app.use(morgan("tiny"));
 
 // app.use('/api', routes);
-app.use("/api", routesAuth)
-app.use("/api", routesRoles)
+app.use("/api", routesAuth);
+app.use("/api", routesRoles);

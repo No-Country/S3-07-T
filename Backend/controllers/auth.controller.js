@@ -1,15 +1,15 @@
-const jwt = require("jsonwebtoken");
-const config = require("../configToken");
-const express = require("express");
-const User = require("../models/user");
-const Roles = require("../models/role");
-const bcrypt = require("bcryptjs");
+import jwt from "jsonwebtoken";
+import config from "../configToken";
+import express from "express";
+import User from "../models/user";
+import Roles from "../models/role";
+import bcrypt from "bcryptjs";
 
 const signUp = async (req, res) => {
   const { email, password, roles } = req.body;
   const newUser = new User({
     email: email,
-    password: await User.passwordCode(password)
+    password: await User.passwordCode(password),
     //password: password,
   });
 
@@ -29,21 +29,21 @@ const signUp = async (req, res) => {
 
 const signIn = async (req, res) => {
   const { email, password } = req.body;
-  const searchEmail = await User.findOne({email:email});
+  const searchEmail = await User.findOne({ email: email });
   if (searchEmail) {
-       const searchPass=await bcrypt.compare(password, searchEmail.password);
-    if(searchPass){
-      const token = jwt.sign({ id: searchEmail._id }, "secret", { expiresIn: "60s" });
+    const searchPass = await bcrypt.compare(password, searchEmail.password);
+    if (searchPass) {
+      const token = jwt.sign({ id: searchEmail._id }, "secret", {
+        expiresIn: "60s",
+      });
       res.status(200).json({
-        token
-      })
-    }
-    else{
+        token,
+      });
+    } else {
       res.status(204).json({
-        msg:"password incorrecto"
-      })
+        msg: "password incorrecto",
+      });
     }
-
   } else {
     res.status(204).json({
       msg: "email incorrecto",
@@ -53,5 +53,5 @@ const signIn = async (req, res) => {
 
 module.exports = {
   signUp,
-  signIn
+  signIn,
 };
