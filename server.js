@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import connection from "./connection";
 // const routes = require('./api');
 // routes
 import routesAuth from "./Routes/routesAuth";
@@ -14,19 +14,9 @@ const app = express();
 
 dotenv.config();
 
-const urlMongo = process.env.DB_URL;
 const PORT = process.env.PORT || 3001; // Step 1
 
-mongoose.connect(
-  urlMongo || "mongodb://localhost/mern_youtube",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  () => {
-    console.log("Mongoose Is Connected");
-  }
-);
+connection();
 
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static('client/build'));
