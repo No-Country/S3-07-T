@@ -7,11 +7,10 @@ const Auth = async (req, res, next) => {
 
         if (!strToken) return res.status(403).json({msg:'Debes iniciar sesión!'})
         const token = strToken.includes(' ') ? strToken.split(' ')[1] : strToken
-        const key = jwt.verify(token, 'secret')
+        const key = jwt.verify(token, process.env.SECRET)
         const user = await User.findOne({ _id: key.id })
         if(!user) return res.status(401).json('Acceso denegado!')
         req.user = user
-        console.log(user)
         next()
 
     } catch (error) {
