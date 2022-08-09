@@ -16,11 +16,11 @@ const signUp = async (req, res) => {
   if (roles) {
     const searchRoles = await Roles.find({ name: { $in: roles } });
     newUser.roles = searchRoles.map((role) => role._id);
-  } else {
+   } else {
     const role = await Roles.findOne({ name: "user" });
-    newUser.roles = [role._id];
-    newUser.roles;
-  }
+   newUser.roles = [role._id];
+     newUser.roles;
+   }
   await newUser.save();
   //const saveUser=await newUser.save()
   const token = jwt.sign({ id: newUser._id }, "secret", { expiresIn: "60s" });
