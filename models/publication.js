@@ -4,14 +4,14 @@ const { Schema } = mongoose;
 
 const publicationSchema = new Schema({
   categories: Schema.Types.ObjectId,
-  ref: "Category",
+  ref: "category",
   contents: { type: String, require: true },
   image: { type: String, require: true },
   countrySide: { type: String, require: true },
   type: { type: String, require: true },
 });
 
-const Publication = mongoose.model("Publication", publicationSchema);
+const Publication = mongoose.model("publication", publicationSchema);
 
 export default Publication;
 

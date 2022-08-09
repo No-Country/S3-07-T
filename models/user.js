@@ -8,7 +8,7 @@ const userSchema = new Schema({
   lastName: { type: String, require: false },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  roles: [{ type: Schema.Types.ObjectId, ref: "Roles" }],
+  roles: [{ type: Schema.Types.ObjectId, ref: "role" }],
   avatar: { type: String, required: false },
   description: { type: String, required: false },
   // projects:{type:Schema.Types.ObjectId, ref:"Project"},
@@ -25,6 +25,6 @@ userSchema.statics.comparePassword = async (password, passwordRecep) => {
   return await bcrypt.compare(password.passwordRecep);
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("user", userSchema);
 
 export default User;
