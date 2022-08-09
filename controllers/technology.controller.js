@@ -6,7 +6,7 @@ export default {
       const tech = await Technology.create({
         name: req.body.name,
       });
-      res.status(200).json(tech);
+      res.status(201).json(tech);
     } catch (e) {
       res.status(500).json({
         message: "Error while adding technology",
@@ -53,7 +53,7 @@ export default {
         { _id: req.params.id },
         { name: req.body.name }
       );
-      res.status(200).json(tech);
+      res.status(205).json(tech);
     } catch (e) {
       res.status(500).json({
         message: "Error while updating a technology",
