@@ -9,8 +9,8 @@ import morgan from "morgan";
 import connection from "./connection";
 // const routes = require('./api');
 // routes
-import routesAuth from "./Routes/routesAuth";
-import routesRoles from "./Routes/routesRoles";
+import routesAuth from "./routes/routesAuth";
+import routesRoles from "./routes/routesRoles";
 
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 const app = express();
