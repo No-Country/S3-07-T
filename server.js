@@ -1,8 +1,11 @@
 import express from "express";
+//environment
+import dotenv from "dotenv";
+//middlewares
 import cors from "cors";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-import dotenv from "dotenv";
+//connection
 import connection from "./connection";
 // const routes = require('./api');
 // routes
@@ -22,16 +25,21 @@ connection();
 //   app.use(express.static('client/build'));
 // }
 
-// Middleware
+// Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:3001", // <-- location of the react app were connecting to
+    origin: `http://localhost:${PORT}`, // <-- location of the react app were connecting to
     credentials: true,
   })
 );
+app.use(morgan("tiny"));
 
+//----------------------------------------- ROUTES ------------------------------------------------------///
+// app.use('/api', routes);
+app.use("/api", routesAuth);
+app.use("/api", routesRoles);
 //----------------------------------------- END OF ROUTES---------------------------------------------------
 //Start Server
 // app.listen(PORT, () => {
@@ -39,10 +47,3 @@ app.use(
 // });
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
-
-/////////////////////
-app.use(morgan("tiny"));
-
-// app.use('/api', routes);
-app.use("/api", routesAuth);
-app.use("/api", routesRoles);
