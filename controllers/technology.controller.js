@@ -6,10 +6,11 @@ export default {
       const tech = await Technology.create({
         name: req.body.name,
       });
-      res.status(200).json(tech);
+      res.status(201).json(tech);
     } catch (e) {
       res.status(500).json({
         message: "Error while adding technology",
+        e,
       });
     }
   },
@@ -26,30 +27,53 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while listing technologies",
+        e,
       });
     }
   },
   query: async (req, res, next) => {
     try {
+      const tech = await Technology.findOne({
+        _id: req.params.id,
+      });
+      if (!tech) {
+        res.status(404).json({
+          message: "Technology not found",
+        });
+      } else {
+        res.status(200).json(tech);
+      }
     } catch (e) {
       res.status(500).json({
-        message: "Error while",
+        message: "Error while searching a technology",
+        e,
       });
     }
   },
   update: async (req, res, next) => {
     try {
+      const tech = await Technology.findByIdAndUpdate(
+        { _id: req.params.id },
+        { name: req.body.name }
+      );
+      res.status(205).json(tech);
     } catch (e) {
       res.status(500).json({
-        message: "Error while",
+        message: "Error while updating a technology",
+        e,
       });
     }
   },
   remove: async (req, res, next) => {
     try {
+      const tech = await Technology.findByIdAndDelete({
+        _id: req.params.id,
+      });
+      res.status(200).json(tech);
     } catch (e) {
       res.status(500).json({
-        message: "Error while",
+        message: "Error while deleting a technology",
+        e,
       });
     }
   },
