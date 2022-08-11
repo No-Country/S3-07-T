@@ -1,12 +1,12 @@
-const { Router } = require('express')
+import Express, { Router } from 'express'
 
-const {
+import {
   createProject,
   GetAllProjects,
   GetProjectById
-} = require('../controllers/project.controller')
+} from '../controllers/project.controller'
 
-const { Auth } = require('../middlewares/auth.middlewares')
+import { Auth } from '../middlewares/auth.middlewares'
 
 export const routesProject = Router()
 

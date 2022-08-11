@@ -1,4 +1,4 @@
-const { Project } = require('../models/project.model')
+import { Project } from '../models/project.js'
 
 const createProject = async (req, res, next) => {
   try {
@@ -44,3 +44,5 @@ const GetProjectById = async (req, res, next) => {
     })
   }
 }
+
+export { createProject, GetAllProjects, GetProjectById }

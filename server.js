@@ -13,7 +13,7 @@ import routesRoles from './routes/routesRoles'
 import routesTech from './routes/technology.route'
 import routesTeam from './routes/team.route'
 import routesPublication from './routes/publication.route'
-import routesProject from './routes/project.routes'
+import { routesProject } from './routes/project.routes'
 const app = express()
 
 //Environment variables

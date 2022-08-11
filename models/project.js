@@ -30,8 +30,6 @@ const projectSchema = new Schema(
   }
 )
 
-const Project = mongoose.model('project', projectSchema)
-
-module.exports = Project
+export const Project = mongoose.model('project', projectSchema)
 
 //queda la consulta por los members
