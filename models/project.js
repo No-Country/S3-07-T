@@ -1,18 +1,37 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
-const projectSchema = new Schema({
-  image: { type: String, require: true },
-  user: { type: Schema.Types.ObjectId, ref: "user" },
-  teamLeader: { type: String, require: true },
-  title: { type: String, require: true },
-  video: { type: String, require: true },
-  publicateAt: { type: Date, require: true },
-});
+const projectSchema = new Schema(
+  {
+    image: {
+      type: Schema.Types.String,
+      require: true
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    teamLeader: {
+      type: Schema.Types.String,
+      require: true
+    },
+    title: {
+      type: Schema.Types.String,
+      require: true
+    },
+    video: {
+      type: Schema.Types.String,
+      require: true
+    }
+  },
+  {
+    timestamps: true
+  }
+)
 
-const Project = mongoose.model("project", projectSchema);
+const Project = mongoose.model('project', projectSchema)
 
-export default Project;
+module.exports = Project
 
 //queda la consulta por los members
