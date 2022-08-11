@@ -34,7 +34,9 @@ const signIn = async (req, res) => {
     const searchPass = await bcrypt.compare(password, searchEmail.password);
     if (searchPass) {
       const token = jwt.sign({ id: searchEmail._id }, "secret", {
+
         expiresIn: "1h",
+
       });
       res.status(200).json({
         token,

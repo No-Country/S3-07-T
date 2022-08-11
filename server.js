@@ -12,7 +12,7 @@ import connection from "./connection";
 import routesAuth from "./routes/routesAuth";
 import routesRoles from "./routes/routesRoles";
 import routesTech from "./routes/technology.route";
-
+import routesUser from "./routes/routesUser";
 //----------------------------------------- END OF IMPORTS---------------------------------------------------
 const app = express();
 
@@ -42,6 +42,7 @@ app.use(morgan("tiny"));
 app.use("/api", routesAuth);
 app.use("/api", routesRoles);
 app.use("/api", routesTech);
+app.use("/api", routesUser);
 //----------------------------------------- END OF ROUTES---------------------------------------------------
 //Start Server
 // app.listen(PORT, () => {
