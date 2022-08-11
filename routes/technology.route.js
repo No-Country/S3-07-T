@@ -12,8 +12,8 @@ router.get("/tech", list);
 
 router.get("/tech/:id", query);
 
-router.put("/tech/:id", update);
+router.put("/tech/:id", Auth, update);
 
-router.delete("/tech/:id", remove);
+router.delete("/tech/:id", Auth, remove);
 
 module.exports = router;

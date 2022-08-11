@@ -5,15 +5,20 @@ const { Schema } = mongoose;
 const teamSchema = new Schema({
   cohortType: {
     type: String,
+    required: true,
   },
   cohortNumber: {
     type: String,
+    required: true,
   },
   group: {
     type: String,
+    required: true,
   },
   teamLeader: {
-    type: String,
+    type: Schema.ObjectId,
+    ref: "user",
+    required: false,
   },
   technologies: [
     {

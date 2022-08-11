@@ -10,6 +10,7 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while adding technology",
+        e,
       });
     }
   },
@@ -26,6 +27,7 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while listing technologies",
+        e,
       });
     }
   },
@@ -44,6 +46,7 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while searching a technology",
+        e,
       });
     }
   },
@@ -57,6 +60,7 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while updating a technology",
+        e,
       });
     }
   },
@@ -69,6 +73,7 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while deleting a technology",
+        e,
       });
     }
   },
