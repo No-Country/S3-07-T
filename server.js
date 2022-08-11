@@ -13,6 +13,7 @@ import routesRoles from "./routes/routesRoles";
 import routesTech from "./routes/technology.route";
 import routesTeam from "./routes/team.route";
 import routesPublication from "./routes/publication.route";
+import routesComment from "./routes/comment.route";
 
 const app = express();
 
@@ -41,5 +42,6 @@ app.use("/api", routesRoles);
 app.use("/api", routesTech);
 app.use("/api", routesTeam);
 app.use("/api", routesPublication);
+app.use("/api", routesComment);
 
 module.exports = app;

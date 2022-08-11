@@ -23,7 +23,7 @@ export default {
   },
   list: async (req, res, next) => {
     try {
-      const publications = await Publication.find();
+      const publications = await Publication.find().populate("comments");
       res.status(200).json(publications);
     } catch (e) {
       res.status(500).json({
