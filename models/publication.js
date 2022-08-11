@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const publicationSchema = new Schema({
+  title: { type: String, required: true },
   content: { type: String, required: true },
   image: { type: String, required: true },
   countrySide: { type: String, required: true },

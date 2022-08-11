@@ -12,6 +12,7 @@ import routesAuth from "./routes/routesAuth";
 import routesRoles from "./routes/routesRoles";
 import routesTech from "./routes/technology.route";
 import routesTeam from "./routes/team.route";
+import routesPublication from "./routes/publication.route";
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use("/api", routesAuth);
 app.use("/api", routesRoles);
 app.use("/api", routesTech);
 app.use("/api", routesTeam);
+app.use("/api", routesPublication);
 
 module.exports = app;
