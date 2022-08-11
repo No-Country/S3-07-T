@@ -43,6 +43,7 @@ app.use("/api", routesAuth);
 app.use("/api", routesRoles);
 app.use("/api", routesTech);
 app.use("/api", routesUser);
+
 //----------------------------------------- END OF ROUTES---------------------------------------------------
 //Start Server
 // app.listen(PORT, () => {
