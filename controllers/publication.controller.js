@@ -10,7 +10,6 @@ export default {
         countrySide: req.body.countrySide,
         type: req.body.type,
         categories: req.body.categories,
-        comments: req.body.comments,
         author: req.body.author,
       });
       res.status(201).send(publication);
