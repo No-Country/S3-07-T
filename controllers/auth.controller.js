@@ -1,9 +1,12 @@
 import jwt from "jsonwebtoken";
-import config from "../configToken";
-import express from "express";
 import User from "../models/user";
 import Roles from "../models/role";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const SECRET = process.env.SECRET;
 
 const signUp = async (req, res) => {
   const { email, password, roles,rolDes,firstName,lastName,phone } = req.body;
@@ -20,20 +23,21 @@ const signUp = async (req, res) => {
   if (roles) {
     const searchRoles = await Roles.find({ name: { $in: roles } });
     newUser.roles = searchRoles.map((role) => role._id);
-   } else {
+  } else {
     const role = await Roles.findOne({ name: "user" });
-   newUser.roles = [role._id];
-     newUser.roles;
-   }
+    newUser.roles = [role._id];
+    newUser.roles;
+  }
   await newUser.save();
   //const saveUser=await newUser.save()
-  const token = jwt.sign({ id: newUser._id }, "secret", { expiresIn: "1h" });
+  const token = jwt.sign({ id: newUser._id }, "secret", { expiresIn: "1d" });
   const user={
     token:token,
     email:newUser.email,
     id:newUser.id
   }
   res.status(200).json({ user });
+
 };
 
 const signIn = async (req, res) => {
@@ -42,10 +46,8 @@ const signIn = async (req, res) => {
   if (searchEmail) {
     const searchPass = await bcrypt.compare(password, searchEmail.password);
     if (searchPass) {
-      const token = jwt.sign({ id: searchEmail._id }, "secret", {
-
-        expiresIn: "1h",
-
+      const token = jwt.sign({ id: searchEmail._id }, SECRET, {
+        expiresIn: "1d",
       });
       res.status(200).json({
         token,
