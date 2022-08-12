@@ -4,16 +4,16 @@ import commentController from "../controllers/comment.controller";
 
 const router = Router();
 
-const { add, list, query, update, remove } = commentController;
+const { addComment, query, update, remove, likeComment } = commentController;
 
-router.get("/comment", list);
-
-router.post("/comment", add);
+router.post("/comment", addComment);
 
 router.get("/comment/:id", query);
 
 router.put("/comment/:id", update);
 
 router.delete("/comment/:id", remove);
+
+router.patch("/comment/:id", likeComment);
 
 module.exports = router;

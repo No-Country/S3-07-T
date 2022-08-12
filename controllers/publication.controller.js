@@ -22,7 +22,7 @@ export default {
   },
   list: async (req, res, next) => {
     try {
-      const publications = await Publication.find().populate("comments");
+      const publications = await Publication.find().select('title image');
       res.status(200).json(publications);
     } catch (e) {
       res.status(500).json({
@@ -35,7 +35,7 @@ export default {
     try {
       const publication = await Publication.findOne({
         _id: req.params.id,
-      });
+      }).populate("comments");
       if (!publication) {
         res.status(404).json({
           message: "Publication not found",
@@ -63,7 +63,6 @@ export default {
           countrySide: req.body.countrySide,
           type: req.body.type,
           categories: req.body.categories,
-          comments: req.body.comments,
           author: req.body.author,
         }
       );
@@ -71,6 +70,38 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while updating publication",
+        e,
+      });
+    }
+  },
+  likePublication: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      let publicationLiked = await Publication.findOne({
+        _id: id,
+      });
+      if (!publicationLiked) {
+        res.status(404).json({
+          message: "Publication not found",
+        });
+      } else {
+        let likes = publicationLiked.likes;
+        likes++;
+        await Publication.findByIdAndUpdate(
+          {
+            _id: id,
+          },
+          {
+            likes,
+          }
+        );
+        res.status(200).json({
+          message: "Publication liked!",
+        });
+      }
+    } catch (e) {
+      res.status(500).json({
+        message: "Error while liking publication",
         e,
       });
     }

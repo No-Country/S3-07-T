@@ -15,10 +15,6 @@ const commentSchema = new Schema({
     type: Schema.ObjectId,
     ref: "user",
   },
-  publication: {
-    type: Schema.ObjectId,
-    ref: "publication",
-  },
 });
 
 const Comment = mongoose.model("comment", commentSchema);

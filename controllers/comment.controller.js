@@ -2,25 +2,25 @@ import Comment from "./../models/comment";
 import Publication from "../models/publication";
 
 export default {
-  add: async (req, res, next) => {
-    const { content, publication, author } = req.body;
+  addComment: async (req, res, next) => {
+    const { author, content, publication } = req.body;
     try {
-      const comment = await Comment.create({
-        content,
-        publication,
-        author,
+      const publicationCommented = await Publication.findOne({
+        _id: publication,
       });
-      res.status(201).json(comment);
-    } catch (e) {
-      res.status(500).json({
-        message: "Error while adding comment",
-      });
-    }
-  },
-  list: async (req, res, next) => {
-    try {
-      const teams = await Comment.find().populate("publication");
-      res.status(200).json(teams);
+      if (!publicationCommented) {
+        res.status(404).json({
+          message: "Publication not found",
+        });
+      } else {
+        const comment = await Comment.create({
+          author,
+          content,
+        });
+        publicationCommented.comments.push(comment);
+        publicationCommented.save();
+        res.status(200).json(publicationCommented);
+      }
     } catch (e) {
       res.status(500).json(e);
     }
@@ -28,7 +28,7 @@ export default {
   query: async (req, res, next) => {
     const { id } = req.params;
     try {
-      const comment = await Comment.findById(id).populate("publication");
+      const comment = await Comment.findById(id).populate("author");
       if (!comment) {
         res.status(404).json({
           message: "Comment not found",
@@ -58,6 +58,38 @@ export default {
     } catch (e) {
       res.status(500).json({
         message: "Error while updating a comment",
+      });
+    }
+  },
+  likeComment: async (req, res, next) => {
+    const { id } = req.params;
+    try {
+      let commentLiked = await Comment.findOne({
+        _id: id,
+      });
+      if (!commentLiked) {
+        res.status(404).json({
+          message: "Comment not found",
+        });
+      } else {
+        let likes = commentLiked.likes;
+        likes++;
+        await Comment.findByIdAndUpdate(
+          {
+            _id: id,
+          },
+          {
+            likes,
+          }
+        );
+        res.status(200).json({
+          message: "Comment liked!",
+        });
+      }
+    } catch (e) {
+      res.status(500).json({
+        message: "Error while liking comment",
+        e,
       });
     }
   },

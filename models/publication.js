@@ -8,6 +8,10 @@ const publicationSchema = new Schema({
   image: { type: String, required: true },
   countrySide: { type: String, required: true },
   type: { type: String, required: true },
+  likes: {
+    type: Number,
+    default: 0,
+  },
   categories: [
     {
       type: Schema.Types.ObjectId,
