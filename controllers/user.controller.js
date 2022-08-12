@@ -1,5 +1,6 @@
 import { ModulesOption } from "@babel/preset-env/lib/options";
 import express from "express";
+import { restart } from "nodemon";
 import User from "../models/user";
 
 const searchxId = async (req, res, next) => {
@@ -9,9 +10,11 @@ const searchxId = async (req, res, next) => {
   if (buscado) {
     const UserSprint = {
       id: buscado.id,
-      firstName:buscado.firstName,
-      lastName:buscado.lastName,
-      description:buscado.description,
+      firstName: buscado.firstName,
+      lastName: buscado.lastName,
+      description: buscado.description,
+      rolDes:buscado.rolDes,
+      phone:buscado.phone,
       email: buscado.email,
       roles: buscado.roles,
     };
@@ -27,11 +30,11 @@ const searchxId = async (req, res, next) => {
 
 const editUser = async (req, res, next) => {
   const id = req.params.id;
-  const { firstName,lastName,description } = req.body
+  const { firstName, lastName, description } = req.body;
   const newUser = {
     firstName: firstName,
     lastName: lastName,
-    description: description
+    description: description,
   };
   try {
     await User.findByIdAndUpdate(id, newUser, { userFindModify: true });
@@ -41,14 +44,24 @@ const editUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-console.log(newUser)
+  console.log(newUser);
 };
 
-const listUser=async (req,res,next)=>{
-  const list=
-}
+const listUser = async (req, res, next) => {
+ 
+  const list = await User.find({},{password:0});
+  if (list.length>0) {
+    res.status(200).json({
+      list,
+    });
+  }else
+  res.status(204).json({
+    msg:"no hay usuarios"
+  })
+};
 
 module.exports = {
   searchxId,
-  editUser
+  editUser,
+  listUser
 };
