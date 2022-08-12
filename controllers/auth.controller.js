@@ -6,10 +6,14 @@ import Roles from "../models/role";
 import bcrypt from "bcryptjs";
 
 const signUp = async (req, res) => {
-  const { email, password, roles } = req.body;
+  const { email, password, roles,rolDes,firstName,lastName,phone } = req.body;
   const newUser = new User({
     email: email,
     password: await User.passwordCode(password),
+    rolDes:rolDes,
+    firstName:firstName,
+    lastName:lastName,
+    phone:phone
     //password: password,
   });
 
@@ -24,7 +28,12 @@ const signUp = async (req, res) => {
   await newUser.save();
   //const saveUser=await newUser.save()
   const token = jwt.sign({ id: newUser._id }, "secret", { expiresIn: "1h" });
-  res.status(200).json({ token });
+  const user={
+    token:token,
+    email:newUser.email,
+    id:newUser.id
+  }
+  res.status(200).json({ user });
 };
 
 const signIn = async (req, res) => {

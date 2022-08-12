@@ -8,6 +8,8 @@ const userSchema = new Schema({
   lastName: { type: String, require: false },
   email: { type: String, required: true },
   password: { type: String, required: true },
+  phone:{type:String,required:true},
+  rolDes:{type:String,required:true},
   roles: [{ type: Schema.Types.ObjectId, ref: "Roles" }],
   avatar: { type: String, required: false },
   description: { type: String, required: false },
