@@ -1,48 +1,47 @@
 import express from "express";
+//environment
+import dotenv from "dotenv";
+//middlewares
 import cors from "cors";
 import bodyParser from "body-parser";
 import morgan from "morgan";
-import dotenv from "dotenv";
+//connection
 import connection from "./connection";
-// const routes = require('./api');
-// routes
-import routesAuth from "./Routes/routesAuth";
-import routesRoles from "./Routes/routesRoles";
+//routes
+import routesAuth from "./routes/routesAuth";
+import routesRoles from "./routes/routesRoles";
+import routesTech from "./routes/technology.route";
+import routesTeam from "./routes/team.route";
+import routesPublication from "./routes/publication.route";
+import routesComment from "./routes/comment.route";
 
-//----------------------------------------- END OF IMPORTS---------------------------------------------------
 const app = express();
 
+//Environment variables
 dotenv.config();
 
-const PORT = process.env.PORT || 3001; // Step 1
+const FRONTEND_PORT = process.env.FRONTEND_PORT ?? 3000;
 
+//Connection to DataBase
 connection();
 
-// if (process.env.NODE_ENV === 'production') {
-//   app.use(express.static('client/build'));
-// }
-
-// Middleware
+//Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:3001", // <-- location of the react app were connecting to
+    origin: `http://localhost:${FRONTEND_PORT}`, // <-- location of the react app were connecting to
     credentials: true,
   })
 );
-
-//----------------------------------------- END OF ROUTES---------------------------------------------------
-//Start Server
-// app.listen(PORT, () => {
-//   console.log("Server Has Started");
-// });
-
-app.listen(PORT, console.log(`Server is starting at ${PORT}`));
-
-/////////////////////
 app.use(morgan("tiny"));
 
-// app.use('/api', routes);
+//Routes
 app.use("/api", routesAuth);
 app.use("/api", routesRoles);
+app.use("/api", routesTech);
+app.use("/api", routesTeam);
+app.use("/api", routesPublication);
+app.use("/api", routesComment);
+
+module.exports = app;

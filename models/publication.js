@@ -1,18 +1,35 @@
-const mongoose=require("mongoose")
-const {Schema}=mongoose
+import mongoose from "mongoose";
 
+const { Schema } = mongoose;
 
-const publicationSchema=new Schema({
-categories:Schema.Types.ObjectId,ref:"Category",
-contents:{type:String,require:true},
-image:{type:String,require:true},
-countrySide:{type:String,require:true},
-type:{type:String,require:true}
-})
+const publicationSchema = new Schema({
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  image: { type: String, required: true },
+  countrySide: { type: String, required: true },
+  type: { type: String, required: true },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "category",
+    },
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "comment",
+    },
+  ],
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+  },
+});
 
-module.exports=Schema.model("Publication",publicationSchema)
+const Publication = mongoose.model("publication", publicationSchema);
 
-
-//queda pendiente autor
-//queda pendiente comments
-//countrySide:{type:} typo??
+export default Publication;

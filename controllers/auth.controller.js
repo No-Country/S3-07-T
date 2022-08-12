@@ -1,9 +1,12 @@
 import jwt from "jsonwebtoken";
-import config from "../configToken";
-import express from "express";
 import User from "../models/user";
 import Roles from "../models/role";
 import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const SECRET = process.env.SECRET;
 
 const signUp = async (req, res) => {
   const { email, password, roles } = req.body;
@@ -23,7 +26,7 @@ const signUp = async (req, res) => {
   }
   await newUser.save();
   //const saveUser=await newUser.save()
-  const token = jwt.sign({ id: newUser._id }, "secret", { expiresIn: "60s" });
+  const token = jwt.sign({ id: newUser._id }, SECRET, { expiresIn: "1d" });
   res.status(200).json({ token });
 };
 
@@ -33,8 +36,8 @@ const signIn = async (req, res) => {
   if (searchEmail) {
     const searchPass = await bcrypt.compare(password, searchEmail.password);
     if (searchPass) {
-      const token = jwt.sign({ id: searchEmail._id }, "secret", {
-        expiresIn: "60s",
+      const token = jwt.sign({ id: searchEmail._id }, SECRET, {
+        expiresIn: "1d",
       });
       res.status(200).json({
         token,
