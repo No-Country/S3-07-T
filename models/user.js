@@ -8,7 +8,9 @@ const userSchema = new Schema({
   lastName: { type: String, required: false },
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
-  roles: [{ type: Schema.Types.ObjectId, ref: 'role' }],
+  phone:{type:String,required:true},
+  rolDes:{type:String,required:true},
+  roles: [{ type: Schema.Types.ObjectId, ref: "role" }],
   avatar: { type: String, required: false },
   description: { type: String, required: false }
   // projects:{type:Schema.Types.ObjectId, ref:"Project"},
