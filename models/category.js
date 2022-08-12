@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const categorySchema = new Schema({
-  name: { type: String, require: true },
-});
+	name: { type: String, require: true },
+})
 
-const Category = mongoose.model("category", categorySchema);
+const Category = mongoose.model("category", categorySchema)
 
-export default Category;
+export default Category

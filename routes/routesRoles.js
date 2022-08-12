@@ -1,10 +1,10 @@
-import express from "express";
-import roleController from "./../controllers/role.controller";
+import express from "express"
+import roleController from "./../controllers/role.controller"
 
-const router = express.Router();
+const router = express.Router()
 
-const { rolesCont } = roleController;
+const { rolesCont } = roleController
 
-router.post("/roles", rolesCont);
+router.post("/roles", rolesCont)
 
-module.exports = router;
+module.exports = router
