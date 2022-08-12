@@ -1,5 +1,5 @@
 const config={
-    SECRET:"codigoAcceso"
+	SECRET:"codigoAcceso"
 }
 
 module.exports={config}
