@@ -9,6 +9,7 @@ import morgan from "morgan";
 import connection from "./connection";
 //routes
 import routesAuth from "./routes/routesAuth";
+import routesUser from "./routes/routesUser"
 import routesRoles from "./routes/routesRoles";
 import routesTech from "./routes/technology.route";
 import routesTeam from "./routes/team.route";
@@ -38,8 +39,10 @@ app.use(morgan("tiny"));
 //Routes
 app.use("/api", routesAuth);
 app.use("/api", routesRoles);
+app.use("/api", routesUser);
 app.use("/api", routesTech);
 app.use("/api", routesTeam);
 app.use("/api", routesPublication);
+
 
 module.exports = app;

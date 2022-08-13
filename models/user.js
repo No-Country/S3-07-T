@@ -13,6 +13,7 @@ const userSchema = new Schema({
   roles: [{ type: Schema.Types.ObjectId, ref: "role" }],
   avatar: { type: String, required: false },
   description: { type: String, required: false },
+  status:{type:Boolean,default:true}
   // projects:{type:Schema.Types.ObjectId, ref:"Project"},
   // idProject:{type:String,required:true},
   // role:Schema.Types.ObjectId,ref:"Role"
