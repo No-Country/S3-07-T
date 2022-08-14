@@ -1,13 +1,14 @@
-import express from "express";
+import express from 'express'
 //environment
-import dotenv from "dotenv";
+import dotenv from 'dotenv'
 //middlewares
-import cors from "cors";
-import bodyParser from "body-parser";
-import morgan from "morgan";
+import cors from 'cors'
+import bodyParser from 'body-parser'
+import morgan from 'morgan'
 //connection
-import connection from "./connection";
+import connection from './connection'
 //routes
+
 import routesAuth from "./routes/routesAuth";
 import routesUser from "./routes/routesUser"
 import routesRoles from "./routes/routesRoles";
@@ -17,32 +18,35 @@ import routesPublication from "./routes/publication.route";
 
 const app = express();
 
-//Environment variables
-dotenv.config();
 
-const FRONTEND_PORT = process.env.FRONTEND_PORT ?? 3000;
+//Environment variables
+dotenv.config()
+
+const FRONTEND_PORT = process.env.FRONTEND_PORT ?? 3000
 
 //Connection to DataBase
-connection();
+connection()
 
 //Middlewares
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
     origin: `http://localhost:${FRONTEND_PORT}`, // <-- location of the react app were connecting to
-    credentials: true,
+    credentials: true
   })
-);
-app.use(morgan("tiny"));
+)
+app.use(morgan('tiny'))
 
 //Routes
-app.use("/api", routesAuth);
-app.use("/api", routesRoles);
+
+app.use('/api', routesAuth)
+app.use('/api', routesRoles)
+app.use('/api', routesTech)
+app.use('/api', routesTeam)
+app.use('/api', routesPublication)
+app.use('/api', routesProject)
 app.use("/api", routesUser);
-app.use("/api", routesTech);
-app.use("/api", routesTeam);
-app.use("/api", routesPublication);
 
+module.exports = app
 
-module.exports = app;
