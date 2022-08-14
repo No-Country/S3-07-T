@@ -4,7 +4,7 @@ const searchxId = async (req, res) => {
 	const id = req.params.id
 	const buscado = await User.findById(id)
 
-<<<<<<< HEAD
+
   if (buscado) {
     const UserSprint = {
       id: buscado.id,
@@ -16,17 +16,7 @@ const searchxId = async (req, res) => {
       email: buscado.email,
       roles: buscado.roles,
     };
-=======
-	if (buscado) {
-		const UserSprint = {
-			id: buscado.id,
-			firstName:buscado.firstName,
-			lastName:buscado.lastName,
-			description:buscado.description,
-			email: buscado.email,
-			roles: buscado.roles,
-		}
->>>>>>> 692840e6518aae3363df42aa2aa85c7db7401769
+
 
 		res.status(200).json({
 			UserSprint,
@@ -56,7 +46,7 @@ const editUser = async (req, res, next) => {
 	console.log(newUser)
 }
 
-<<<<<<< HEAD
+
 const listUser = async (req, res, next) => {
   const list = await User.find({}, { password: 0 });
   if (list.length > 0) {
@@ -68,11 +58,6 @@ const listUser = async (req, res, next) => {
       msg: "no hay usuarios",
     });
 };
-=======
-// const listUser=async (req,res,next)=>{
-//   const list=
-// }
->>>>>>> 692840e6518aae3363df42aa2aa85c7db7401769
 
 const deleteUser= async (req, res, next) => {
   const idUser = req.params.id;
@@ -95,14 +80,9 @@ const deleteUser= async (req, res, next) => {
 
 
 module.exports = {
-<<<<<<< HEAD
+
   searchxId,
   editUser,
   listUser,
   deleteUser
 };
-=======
-	searchxId,
-	editUser
-}
->>>>>>> 692840e6518aae3363df42aa2aa85c7db7401769
