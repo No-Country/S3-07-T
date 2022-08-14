@@ -10,9 +10,10 @@ const SECRET = process.env.SECRET
 
 const signUp = async (req, res) => {
 	const { email, password, roles,rolDes,firstName,lastName,phone } = req.body
+	const passwordHash = await User.passwordCode(password)
 	const newUser = new User({
 		email: email,
-		password: await User.passwordCode(password),
+		password: passwordHash,
 		rolDes:rolDes,
 		firstName:firstName,
 		lastName:lastName,
