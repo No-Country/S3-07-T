@@ -15,6 +15,7 @@ import routesRoles from "./routes/routesRoles";
 import routesTech from "./routes/technology.route";
 import routesTeam from "./routes/team.route";
 import routesPublication from "./routes/publication.route";
+import routesProject from "./routes/project.routes"
 
 const app = express();
 
@@ -45,7 +46,7 @@ app.use('/api', routesRoles)
 app.use('/api', routesTech)
 app.use('/api', routesTeam)
 app.use('/api', routesPublication)
-app.use('/api', routesProject)
+//app.use('/api', routesProject) comente esta ruta porque al correr el servidos me tiraba error
 app.use("/api", routesUser);
 
 module.exports = app
