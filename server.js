@@ -8,14 +8,15 @@ import morgan from 'morgan'
 //connection
 import connection from './connection'
 //routes
-import routesAuth from './routes/routesAuth'
-import routesRoles from './routes/routesRoles'
-import routesTech from './routes/routesTechnology'
-import routesTeam from './routes/routesTeam'
-import routesPublication from './routes/routesPublication'
-import routesProject from './routes/routesProject'
-import routesComment from './routes/routesComment'
-const app = express()
+import routesAuth from "./routes/routesAuth";
+import routesUser from "./routes/routesUser"
+import routesRoles from "./routes/routesRoles";
+import routesTech from "./routes/technology.route";
+import routesTeam from "./routes/team.route";
+import routesPublication from "./routes/publication.route";
+import routesProject from "./routes/project.routes"
+
+const app = express();
 
 //Environment variables
 dotenv.config()
@@ -37,11 +38,17 @@ app.use(
 app.use(morgan('tiny'))
 
 //Routes
+
 app.use('/api', routesAuth)
 app.use('/api', routesRoles)
 app.use('/api', routesTech)
 app.use('/api', routesTeam)
 app.use('/api', routesPublication)
+app.use('/api', routesProject) 
+app.use('/api', routesUser);
+
+module.exports = app
+
 app.use('/api', routesProject)
 app.use('/api', routesComment)
 
