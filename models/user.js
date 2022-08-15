@@ -1,9 +1,10 @@
-import mongoose from "mongoose"
-import bcrypt from "bcryptjs"
+import mongoose from 'mongoose'
+import bcrypt from 'bcryptjs'
 
 const { Schema } = mongoose
 
 const userSchema = new Schema({
+
 
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
@@ -21,15 +22,15 @@ const userSchema = new Schema({
 });
 
 
-userSchema.statics.passwordCode = async password => {
-	const encryp = await bcrypt.genSalt(10)
-	return await bcrypt.hash(password, encryp)
+userSchema.statics.passwordCode = async (password) => {
+  const encryp = await bcrypt.genSalt(10)
+  return await bcrypt.hash(password, encryp)
 }
 
 userSchema.statics.comparePassword = async (password, passwordRecep) => {
-	return await bcrypt.compare(password,passwordRecep)
+  return await bcrypt.compare(password, passwordRecep)
 }
 
-const User = mongoose.model("user", userSchema)
+const User = mongoose.model('user', userSchema)
 
 export default User

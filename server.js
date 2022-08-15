@@ -8,17 +8,15 @@ import morgan from 'morgan'
 //connection
 import connection from './connection'
 //routes
-
-import routesAuth from "./routes/routesAuth";
-import routesUser from "./routes/routesUser"
-import routesRoles from "./routes/routesRoles";
-import routesTech from "./routes/technology.route";
-import routesTeam from "./routes/team.route";
-import routesPublication from "./routes/publication.route";
-import routesProject from "./routes/project.routes"
+//import routesAuth from "./routes/routesAuth";
+// import routesUser from "./routes/routesUser"
+// import routesRoles from "./routes/routesRoles";
+// import routesTech from "./routes/technology.route";
+// import routesTeam from "./routes/team.route";
+// import routesPublication from "./routes/publication.route";
+//import routesProject from "./routes/project.routes"
 
 const app = express();
-
 
 //Environment variables
 dotenv.config()
@@ -34,20 +32,25 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
     origin: `http://localhost:${FRONTEND_PORT}`, // <-- location of the react app were connecting to
-    credentials: true
-  })
+    credentials: true,
+  }),
 )
 app.use(morgan('tiny'))
 
 //Routes
 
-app.use('/api', routesAuth)
-app.use('/api', routesRoles)
-app.use('/api', routesTech)
-app.use('/api', routesTeam)
-app.use('/api', routesPublication)
-//app.use('/api', routesProject) comente esta ruta porque al correr el servidos me tiraba error
-app.use("/api", routesUser);
 
-module.exports = app
+//app.use('/api', routesAuth)
+// app.use('/api', routesRoles)
+// app.use('/api', routesTech)
+// app.use('/api', routesTeam)
+// app.use('/api', routesPublication)
+// app.use('/api', routesProject) 
+// app.use('/api', routesUser);
+
+
+// app.use('/api', routesProject)
+// app.use('/api', routesComment)
+
+export default app
 

@@ -1,5 +1,6 @@
-import express from "express"
-import userController from "../controllers/user.controller"
+import { Router } from 'express'
+import userController from '../controllers/user.controller'
+
 
 const router=express.Router()
 const {searchxId,editUser,listUser,deleteUser,editEmail}=userController
@@ -11,4 +12,5 @@ router.get("/deleteUser/:id",deleteUser)
 router.put("/editEmail/:id",editEmail)
 
 
-module.exports=router
+
+export default router
