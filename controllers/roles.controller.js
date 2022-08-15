@@ -1,5 +1,5 @@
 import express from 'express'
-import Role from '../models/role'
+import Role from './../models/role'
 
 const rolesCont = async (req, res) => {
   const { name } = req.body
