@@ -10,10 +10,11 @@ import connection from './connection'
 //routes
 import routesAuth from './routes/routesAuth'
 import routesRoles from './routes/routesRoles'
-import routesTech from './routes/technology.route'
-import routesTeam from './routes/team.route'
-import routesPublication from './routes/publication.route'
-import { routesProject } from './routes/project.routes'
+import routesTech from './routes/routesTechnology'
+import routesTeam from './routes/routesTeam'
+import routesPublication from './routes/routesPublication'
+import routesProject from './routes/routesProject'
+import routesComment from './routes/routesComment'
 const app = express()
 
 //Environment variables
@@ -30,8 +31,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
     origin: `http://localhost:${FRONTEND_PORT}`, // <-- location of the react app were connecting to
-    credentials: true
-  })
+    credentials: true,
+  }),
 )
 app.use(morgan('tiny'))
 
@@ -42,5 +43,6 @@ app.use('/api', routesTech)
 app.use('/api', routesTeam)
 app.use('/api', routesPublication)
 app.use('/api', routesProject)
+app.use('/api', routesComment)
 
-module.exports = app
+export default app

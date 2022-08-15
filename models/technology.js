@@ -1,11 +1,11 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 
 const technologySchema = new Schema({
-	name: { type: String, required: true },
+  name: { type: String, required: true },
 })
 
-const Technology = mongoose.model("technology", technologySchema)
+const Technology = mongoose.model('technology', technologySchema)
 
 export default Technology
