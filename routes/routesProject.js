@@ -1,14 +1,11 @@
 import { Router } from 'express'
-import { Auth } from '../middlewares/auth.middlewares'
-import {
-  createProject,
-  GetAllProjects,
-  GetProjectById,
-} from '../controllers/project.controller'
+import projectController from '../controllers/project.controller'
+
+const { createProject, GetAllProjects, GetProjectById } = projectController
 
 const router = Router()
 
-router.post('/project', Auth, createProject)
+router.post('/project', createProject)
 router.get('/project', GetAllProjects)
 router.get('/project/:id', GetProjectById)
 

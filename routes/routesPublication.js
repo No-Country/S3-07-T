@@ -7,7 +7,7 @@ const {
   listPublications,
   getPublicationById,
   updatePublication,
-  remove,
+  removePublication,
   likePublication,
 } = publicationController
 
@@ -19,7 +19,7 @@ router.get('/publication/:id', getPublicationById)
 
 router.put('/publication/:id', updatePublication)
 
-router.delete('/publication/:id', remove)
+router.delete('/publication/:id', removePublication)
 
 router.patch('/publication/:id', likePublication)
 
