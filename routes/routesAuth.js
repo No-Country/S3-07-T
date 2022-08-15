@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import authController from '../controllers/auth.controller'
-import { verifyEmail } from '../middlewares/verifyEmail'
+import verifyEmail  from '../middlewares/verifyEmail'
 
 const router = Router()
 
