@@ -1,8 +1,7 @@
 import { Router } from 'express'
 
 import technologyController from '../controllers/technology.controller'
-import AuthMiddlewares from '../middlewares/auth.middlewares'
-const  { Auth, isModerator } = AuthMiddlewares
+import { Auth, isModerator } from '../middlewares/auth.middlewares'
 
 const router = Router()
 

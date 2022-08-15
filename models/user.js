@@ -4,8 +4,11 @@ import bcrypt from 'bcryptjs'
 const { Schema } = mongoose
 
 const userSchema = new Schema({
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 867f7439fb711b26284395cea568532d67afddb0
   firstName: { type: String, required: false },
   lastName: { type: String, required: false },
   email: { type: String, required: true },
@@ -21,7 +24,10 @@ const userSchema = new Schema({
   // role:Schema.Types.ObjectId,ref:"Role"
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 867f7439fb711b26284395cea568532d67afddb0
 userSchema.statics.passwordCode = async (password) => {
   const encryp = await bcrypt.genSalt(10)
   return await bcrypt.hash(password, encryp)
