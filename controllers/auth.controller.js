@@ -18,16 +18,10 @@ const signUp = async (req, res) => {
     lastName,
     phone,
   } = req.body
-<<<<<<< HEAD
-  const newUser = new User({
-    email: email,
-    password: await User.passwordCode(password),
-=======
   const passwordHash = await User.passwordCode(password)
   const newUser = new User({
     email: email,
     password: passwordHash,
->>>>>>> 867f7439fb711b26284395cea568532d67afddb0
     rolDes: rolDes,
     firstName: firstName,
     lastName: lastName,
