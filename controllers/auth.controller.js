@@ -9,25 +9,36 @@ dotenv.config()
 const SECRET = process.env.SECRET
 
 const signUp = async (req, res) => {
-  const {
-    email,
-    password,
-    roles,
-    rolDes,
-    firstName,
-    lastName,
-    phone,
-  } = req.body
-  const newUser = new User({
-    email: email,
-    password: await User.passwordCode(password),
-    rolDes: rolDes,
-    firstName: firstName,
-    lastName: lastName,
-    phone: phone,
-    //password: password,
-  })
+	const { email, password, roles,rolDes,firstName,lastName,phone } = req.body
+	const passwordHash = await User.passwordCode(password)
+	const newUser = new User({
+		email: email,
+		password: passwordHash,
+		rolDes:rolDes,
+		firstName:firstName,
+		lastName:lastName,
+		phone:phone
+		//password: password,
+	})
 
+	if (roles) {
+		const searchRoles = await Roles.find({ name: { $in: roles } })
+		newUser.roles = searchRoles.map((role) => role._id)
+	} else {
+		const role = await Roles.findOne({ name: "user" })
+		newUser.roles = [role._id]
+		newUser.roles
+	}
+	await newUser.save()
+	//const saveUser=await newUser.save()
+	const token = jwt.sign({ id: newUser._id }, "secret", { expiresIn: "1d" })
+	const user={
+		token:token,
+		email:newUser.email,
+		id:newUser.id
+	}
+	res.status(200).json({ user })
+  
   if (roles) {
     const searchRoles = await Roles.find({ name: { $in: roles } })
     newUser.roles = searchRoles.map((role) => role._id)
