@@ -1,9 +1,11 @@
 import { Router } from 'express'
 
 import technologyController from '../controllers/technology.controller'
-import { Auth, isModerator } from '../middlewares/auth.middlewares'
+import AuthMiddleware from '../middlewares/auth.middlewares'
 
 const router = Router()
+
+const { Auth } = AuthMiddleware
 
 const {
   addTechnology,
@@ -13,14 +15,14 @@ const {
   removeTechnology,
 } = technologyController
 
-router.post('/tech', Auth, isModerator, addTechnology)
+router.post('/tech', Auth, addTechnology)
 
 router.get('/tech', listTechnologies)
 
 router.get('/tech/:id', getTechnologyById)
 
-router.put('/tech/:id', Auth, updateTechnology)
+router.put('/tech/:id', updateTechnology)
 
-router.delete('/tech/:id', Auth, removeTechnology)
+router.delete('/tech/:id', removeTechnology)
 
 export default router

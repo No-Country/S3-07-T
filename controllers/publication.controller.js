@@ -1,155 +1,49 @@
-import Publication from '../models/publication'
+import { ModulesOption } from '@babel/preset-env/lib/options.js'
+import { Project } from '../models/project.js'
 
-const addPublication = async (req, res) => {
-  const {
-    title,
-    content,
-    image,
-    countrySide,
-    type,
-    categories,
-    author,
-  } = req.body
+const createProject = async (req, res) => {
   try {
-    const publication = await Publication.create({
-      title,
-      content,
-      image,
-      countrySide,
-      type,
-      categories,
-      author,
+    const project = await Project.create(req.body)
+    res.status(201).json({
+      message: 'Project created',
+      project,
     })
-    res.status(201).send(publication)
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
-      message: 'Error while adding publication',
-      e,
+      message: 'Error while adding project',
+      error,
     })
   }
 }
 
-const listPublications = async (req, res, next) => {
+const GetAllProjects = async (req, res) => {
   try {
-    const publications = await Publication.find().select('title image')
-    res.status(200).json(publications)
-  } catch (e) {
+    const projects = await Project.find()
+    res.status(200).json(projects)
+  } catch (error) {
     res.status(500).json({
-      message: 'Error while listing publications',
-      e,
+      message: 'Error while listing projects',
+      error,
     })
   }
 }
 
-const getPublicationById = async (req, res, next) => {
-  const { id } = req.params
+const GetProjectById = async (req, res) => {
   try {
-    const publication = await Publication.findOne({
-      _id: id,
-    }).populate('comments')
-    if (!publication) {
+    const project = await Project.findById(req.params.id)
+    if (!project) {
       res.status(404).json({
-        message: 'Publication not found',
+        message: 'Project not found',
       })
     } else {
-      res.status(200).json(publication)
+      res.status(200).json(project)
     }
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
-      message: 'Error while searching publication',
-      e,
+      message: 'Error while searching a project',
+      error,
     })
   }
 }
 
-const updatePublication = async (req, res, next) => {
-  const { id } = req.params
-  const {
-    title,
-    content,
-    image,
-    countrySide,
-    type,
-    categories,
-    author,
-  } = req.body
-  try {
-    const publication = await Publication.findByIdAndUpdate(
-      {
-        _id: id,
-      },
-      {
-        title,
-        content,
-        image,
-        countrySide,
-        type,
-        categories,
-        author,
-      },
-    )
-    res.status(205).json(publication)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Error while updating publication',
-      e,
-    })
-  }
-}
-
-const likePublication = async (req, res) => {
-  const { id } = req.params
-  try {
-    let publicationLiked = await Publication.findOne({
-      _id: id,
-    })
-    if (!publicationLiked) {
-      res.status(404).json({
-        message: 'Publication not found',
-      })
-    } else {
-      let likes = publicationLiked.likes
-      likes++
-      await Publication.findByIdAndUpdate(
-        {
-          _id: id,
-        },
-        {
-          likes,
-        },
-      )
-      res.status(200).json({
-        message: 'Publication liked!',
-      })
-    }
-  } catch (e) {
-    res.status(500).json({
-      message: 'Error while liking publication',
-      e,
-    })
-  }
-}
-
-const removePublication = async (req, res, next) => {
-  const { id } = req.params
-  try {
-    const publication = await Publication.findByIdAndDelete({
-      _id: id,
-    })
-    res.status(200).json(publication)
-  } catch (e) {
-    res.status(500).json({
-      message: 'Error while removing publication',
-      e,
-    })
-  }
-}
-
-export default {
-  addPublication,
-  listPublications,
-  getPublicationById,
-  updatePublication,
-  likePublication,
-  removePublication,
-}
+export default { createProject, GetAllProjects, GetProjectById }
