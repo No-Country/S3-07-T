@@ -9,6 +9,7 @@ const {
   updatePublication,
   removePublication,
   likePublication,
+  addCategoryToPublication,
 } = publicationController
 
 router.post('/publication', addPublication)
@@ -23,4 +24,6 @@ router.delete('/publication/:id', removePublication)
 
 router.patch('/publication/:id', likePublication)
 
-module.exports = router
+router.patch('/publication_add_category', addCategoryToPublication)
+
+export default router

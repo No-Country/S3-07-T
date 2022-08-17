@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const { Schema } = mongoose
 
@@ -14,21 +15,23 @@ const publicationSchema = new Schema({
   },
   categories: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.ObjectId,
       ref: 'category',
     },
   ],
   comments: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.ObjectId,
       ref: 'comment',
     },
   ],
   author: {
-    type: Schema.Types.ObjectId,
+    type: Schema.ObjectId,
     ref: 'user',
   },
 })
+
+publicationSchema.plugin(mongoosePaginate)
 
 const Publication = mongoose.model('publication', publicationSchema)
 

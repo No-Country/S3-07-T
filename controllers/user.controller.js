@@ -13,7 +13,7 @@ const searchxId = async (req, res) => {
       rolDes: buscado.rolDes,
       phone: buscado.phone,
       email: buscado.email,
-      roles: buscado.roles,
+      role: buscado.role,
       status: buscado.status,
     }
 
@@ -73,16 +73,21 @@ const editEmail = async (req, res) => {
   }
 }
 
-const listUser = async (req, res, next) => {
-  const list = await User.find({}, { password: 0 })
-  if (list.length > 0) {
-    res.status(200).json({
-      list,
+const listUser = async (req, res) => {
+  const { page, limit } = req.query
+  const options = {
+    select: 'firstName lastName email',
+    page: page ?? 1,
+    limit: limit ?? 10,
+  }
+  try {
+    const list = await User.paginate({}, options)
+    res.status(200).json(list)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while list',
     })
-  } else
-    res.status(204).json({
-      msg: 'no hay usuarios',
-    })
+  }
 }
 
 const deleteUser = async (req, res, next) => {
