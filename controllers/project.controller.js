@@ -61,8 +61,14 @@ const addCategoryToProject = async (req, res) => {
 }
 
 const GetAllProjects = async (req, res) => {
+  const { page, limit } = req.query
+  const options = {
+    select: 'title image',
+    page: page ?? 1,
+    limit: limit ?? 10,
+  }
   try {
-    const projects = await Project.find().select('title image')
+    const projects = await Project.paginate({}, options)
     res.status(200).json(projects)
   } catch (error) {
     res.status(500).json({
@@ -116,6 +122,16 @@ const GetProjectById = async (req, res) => {
 
 const UpdateProject = async (req, res) => {
   const { id } = req.params
+  const {
+    title,
+    description,
+    image,
+    author,
+    video,
+    teamLeader,
+    team,
+    categories,
+  } = req.body
   try {
     const project = await Project.findByIdAndUpdate(
       {

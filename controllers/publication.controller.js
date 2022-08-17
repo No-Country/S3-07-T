@@ -50,9 +50,15 @@ const addCategoryToPublication = async (req, res) => {
   }
 }
 
-const listPublications = async (req, res, next) => {
+const listPublications = async (req, res) => {
+  const { page, limit } = req.query
+  const options = {
+    select: 'title image',
+    page: page ?? 1,
+    limit: limit ?? 10,
+  }
   try {
-    const publications = await Publication.find().select('title image')
+    const publications = await Publication.paginate({}, options)
     res.status(200).json(publications)
   } catch (e) {
     res.status(500).json({
