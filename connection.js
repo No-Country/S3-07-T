@@ -1,21 +1,21 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const urlMongo = process.env.DB_URL;
+const DB_URL = process.env.DB_URL
 
 const connectToDB = () => {
   mongoose.connect(
-    urlMongo || "mongodb://localhost/mern_youtube",
+    DB_URL,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     },
     () => {
-      console.log("Mongoose Is Connected");
-    }
-  );
-};
+      console.log('Mongoose Is Connected')
+    },
+  )
+}
 
-module.exports = connectToDB;
+export default connectToDB

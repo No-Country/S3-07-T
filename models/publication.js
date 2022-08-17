@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const publicationSchema = new Schema({
   title: { type: String, required: true },
@@ -15,21 +15,21 @@ const publicationSchema = new Schema({
   categories: [
     {
       type: Schema.Types.ObjectId,
-      ref: "category",
+      ref: 'category',
     },
   ],
   comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: "comment",
+      ref: 'comment',
     },
   ],
   author: {
     type: Schema.Types.ObjectId,
-    ref: "user",
+    ref: 'user',
   },
-});
+})
 
-const Publication = mongoose.model("publication", publicationSchema);
+const Publication = mongoose.model('publication', publicationSchema)
 
-export default Publication;
+export default Publication
