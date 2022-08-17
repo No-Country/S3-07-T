@@ -1,54 +1,3 @@
-<<<<<<< HEAD
-import Comment from "./../models/comment";
-import Publication from "../models/publication";
-
-export default {
-  addComment: async (req, res, next) => {
-    const { author, content, publication } = req.body;
-    try {
-      const publicationCommented = await Publication.findOne({
-        _id: publication,
-      });
-      if (!publicationCommented) {
-        res.status(404).json({
-          message: "Publication not found",
-        });
-      } else {
-        const comment = await Comment.create({
-          author,
-          content,
-        });
-        publicationCommented.comments.push(comment);
-        publicationCommented.save();
-        res.status(200).json(publicationCommented);
-      }
-    } catch (e) {
-      res.status(500).json(e);
-    }
-  },
-  query: async (req, res, next) => {
-    const { id } = req.params;
-    try {
-      const comment = await Comment.findById(id).populate("author");
-      if (!comment) {
-        res.status(404).json({
-          message: "Comment not found",
-        });
-      } else {
-        res.status(200).json(comment);
-      }
-    } catch (e) {
-      res.status(500).json({
-        message: "Error while...",
-      });
-    }
-  },
-  update: async (req, res, next) => {
-    const { id } = req.params;
-    const { content } = req.body;
-    try {
-      const comment = await Comment.findByIdAndUpdate(
-=======
 import Comment from './../models/comment'
 import Publication from '../models/publication'
 
@@ -128,69 +77,10 @@ const likeComment = async (req, res) => {
       let likes = commentLiked.likes
       likes++
       await Comment.findByIdAndUpdate(
->>>>>>> development
         {
           _id: id,
         },
         {
-<<<<<<< HEAD
-          content,
-        }
-      );
-      res.status(205).json(comment);
-    } catch (e) {
-      res.status(500).json({
-        message: "Error while updating a comment",
-      });
-    }
-  },
-  likeComment: async (req, res, next) => {
-    const { id } = req.params;
-    try {
-      let commentLiked = await Comment.findOne({
-        _id: id,
-      });
-      if (!commentLiked) {
-        res.status(404).json({
-          message: "Comment not found",
-        });
-      } else {
-        let likes = commentLiked.likes;
-        likes++;
-        await Comment.findByIdAndUpdate(
-          {
-            _id: id,
-          },
-          {
-            likes,
-          }
-        );
-        res.status(200).json({
-          message: "Comment liked!",
-        });
-      }
-    } catch (e) {
-      res.status(500).json({
-        message: "Error while liking comment",
-        e,
-      });
-    }
-  },
-  remove: async (req, res, next) => {
-    const { id } = req.params;
-    try {
-      const comment = await Comment.findByIdAndDelete({
-        _id: id,
-      });
-      res.status(200).json(comment);
-    } catch (e) {
-      res.status(500).json({
-        message: "Error while deleting a comment",
-      });
-    }
-  },
-};
-=======
           likes,
         },
       )
@@ -226,4 +116,3 @@ export default {
   likeComment,
   removeComment,
 }
->>>>>>> development
