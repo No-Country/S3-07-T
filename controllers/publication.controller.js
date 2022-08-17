@@ -1,4 +1,5 @@
 import Publication from '../models/publication'
+import Category from '../models/category'
 
 const addPublication = async (req, res) => {
   const {
@@ -29,6 +30,26 @@ const addPublication = async (req, res) => {
   }
 }
 
+const addCategoryToPublication = async (req, res) => {
+  const { publicationId, categoryId } = req.body
+  await Publication.findByIdAndUpdate(publicationId, {
+    $push: { categories: categoryId },
+  })
+  await Category.findByIdAndUpdate(categoryId, {
+    $push: { publications: publicationId },
+  })
+  res.status(200).json({
+    message: 'Category added to publication!',
+  })
+  try {
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while adding category to publication',
+      e,
+    })
+  }
+}
+
 const listPublications = async (req, res, next) => {
   try {
     const publications = await Publication.find().select('title image')
@@ -46,7 +67,21 @@ const getPublicationById = async (req, res, next) => {
   try {
     const publication = await Publication.findOne({
       _id: id,
-    }).populate('comments')
+    }).populate([
+      {
+        path: 'comments',
+        model: 'comment',
+      },
+      {
+        path: 'author',
+        model: 'user',
+        select: 'firstName lastName email',
+      },
+      {
+        path: 'categories',
+        model: 'category',
+      },
+    ])
     if (!publication) {
       res.status(404).json({
         message: 'Publication not found',
@@ -150,6 +185,7 @@ export default {
   listPublications,
   getPublicationById,
   updatePublication,
+  addCategoryToPublication,
   likePublication,
   removePublication,
 }

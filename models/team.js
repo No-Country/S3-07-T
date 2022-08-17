@@ -26,11 +26,12 @@ const teamSchema = new Schema({
       ref: 'technology',
     },
   ],
-  /**
-   * devs: {
-   *    type: Schema.Types.ObjectId
-   * }
-   */
+  devs: [
+    {
+      type: Schema.ObjectId,
+      ref: 'user',
+    },
+  ],
 })
 
 const Team = mongoose.model('team', teamSchema)

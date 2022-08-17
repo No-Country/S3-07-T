@@ -4,32 +4,46 @@ const { Schema } = mongoose
 
 const projectSchema = new Schema(
   {
-    image: {
-      type: Schema.Types.String,
-      require: true,
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    teamLeader: {
-      type: Schema.Types.String,
-      require: true,
-    },
     title: {
-      type: Schema.Types.String,
-      require: true,
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
     },
     video: {
-      type: Schema.Types.String,
-      require: true,
+      type: String,
+      required: true,
     },
+    author: {
+      type: Schema.ObjectId,
+      ref: 'user',
+    },
+    team: {
+      type: Schema.ObjectId,
+      ref: 'team',
+    },
+    teamLeader: {
+      type: Schema.ObjectId,
+      required: true,
+    },
+    categories: [
+      {
+        type: Schema.ObjectId,
+        ref: 'category',
+      },
+    ],
   },
   {
     timestamps: true,
   },
 )
 
-export const Project = mongoose.model('project', projectSchema)
+const Project = mongoose.model('project', projectSchema)
 
-//queda la consulta por los members
+export default Project

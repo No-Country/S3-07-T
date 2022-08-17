@@ -13,7 +13,7 @@ const searchxId = async (req, res) => {
       rolDes: buscado.rolDes,
       phone: buscado.phone,
       email: buscado.email,
-      roles: buscado.roles,
+      role: buscado.role,
       status: buscado.status,
     }
 

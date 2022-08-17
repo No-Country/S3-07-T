@@ -22,4 +22,4 @@ router.delete('/comment/:id', removeComment)
 
 router.patch('/comment/:id', likeComment)
 
-module.exports = router
+export default router

@@ -21,7 +21,9 @@ const addComment = async (req, res) => {
       res.status(200).json(publicationCommented)
     }
   } catch (e) {
-    res.status(500).json(e)
+    res.status(500).json({
+      message: 'Error while adding comment',
+    })
   }
 }
 
@@ -38,7 +40,7 @@ const getCommentById = async (req, res) => {
     }
   } catch (e) {
     res.status(500).json({
-      message: 'Error while...',
+      message: 'Error while finding comment',
     })
   }
 }
