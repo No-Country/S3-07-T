@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const { Schema } = mongoose
 
@@ -25,6 +26,8 @@ const publicationSchema = new Schema({
     ref: 'user',
   },
 })
+
+publicationSchema.plugin(mongoosePaginate)
 
 const Publication = mongoose.model('publication', publicationSchema)
 
