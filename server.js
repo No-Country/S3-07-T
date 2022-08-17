@@ -16,6 +16,7 @@ import routesTeam from './routes/routesTeam'
 import routesPublication from './routes/routesPublication'
 import routesProject from './routes/routesProject'
 import routesComment from './routes/routesComment'
+import routesCategory from './routes/routesCategory'
 
 const app = express()
 
@@ -48,5 +49,6 @@ app.use('/api', routesPublication)
 app.use('/api', routesProject)
 app.use('/api', routesUser)
 app.use('/api', routesComment)
+app.use('/api', routesCategory)
 
 export default app

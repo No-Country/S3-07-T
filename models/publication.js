@@ -10,18 +10,18 @@ const publicationSchema = new Schema({
   type: { type: String, required: true },
   categories: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.ObjectId,
       ref: 'category',
     },
   ],
   comments: [
     {
-      type: Schema.Types.ObjectId,
+      type: Schema.ObjectId,
       ref: 'comment',
     },
   ],
   author: {
-    type: Schema.Types.ObjectId,
+    type: Schema.ObjectId,
     ref: 'user',
   },
 })
