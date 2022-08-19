@@ -39,6 +39,10 @@ const projectSchema = new Schema(
         ref: 'category',
       },
     ],
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

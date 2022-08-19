@@ -16,6 +16,10 @@ const categorySchema = new Schema({
       ref: 'publication',
     },
   ],
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const Category = mongoose.model('category', categorySchema)

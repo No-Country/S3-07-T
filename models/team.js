@@ -32,6 +32,10 @@ const teamSchema = new Schema({
       ref: 'user',
     },
   ],
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const Team = mongoose.model('team', teamSchema)

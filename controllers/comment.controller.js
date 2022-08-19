@@ -97,6 +97,45 @@ const likeComment = async (req, res) => {
     })
   }
 }
+
+const activateComment = async (req, res) => {
+  const { id } = req.body
+  try {
+    const comment = await Comment.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isActive: true,
+      },
+    )
+    res.status(200).json(comment)
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error while activating a comment',
+    })
+  }
+}
+
+const deactivateComment = async (req, res) => {
+  const { id } = req.body
+  try {
+    const comment = await Comment.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isActive: false,
+      },
+    )
+    res.status(200).json(comment)
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error while activating a comment',
+    })
+  }
+}
+
 const removeComment = async (req, res) => {
   const { id } = req.params
   try {
@@ -116,5 +155,7 @@ export default {
   getCommentById,
   updateComment,
   likeComment,
+  activateComment,
+  deactivateComment,
   removeComment,
 }
