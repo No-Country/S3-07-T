@@ -24,8 +24,8 @@ router.delete('/comment/:id', removeComment)
 
 router.patch('/comment/:id', likeComment)
 
-router.put('/comment/activate/:id', activateComment)
+router.patch('/comment_activate/:id', activateComment)
 
-router.put('/comment/deactivate/:id', deactivateComment)
+router.patch('/comment_deactivate/:id', deactivateComment)
 
 export default router

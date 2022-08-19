@@ -60,10 +60,33 @@ const addCategoryToProject = async (req, res) => {
   }
 }
 
+const GetProjects = async (req, res) => {
+  const { page, limit } = req.query
+  const options = {
+    select: 'title image isActive',
+    page: page ?? 1,
+    limit: limit ?? 10,
+  }
+  try {
+    const projects = await Project.paginate(
+      {
+        isActive: true,
+      },
+      options,
+    )
+    res.status(200).json(projects)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while listing projects',
+      error,
+    })
+  }
+}
+
 const GetAllProjects = async (req, res) => {
   const { page, limit } = req.query
   const options = {
-    select: 'title image',
+    select: 'title image isActive',
     page: page ?? 1,
     limit: limit ?? 10,
   }
@@ -79,7 +102,7 @@ const GetAllProjects = async (req, res) => {
 }
 
 const GetProjectById = async (req, res) => {
-  const { id } = req.params.id
+  const { id } = req.params
   try {
     const project = await Project.findById({
       _id: id,
@@ -163,10 +186,73 @@ const UpdateProject = async (req, res) => {
   }
 }
 
+const activateProject = async (req, res) => {
+  const { id } = req.params
+  try {
+    await Project.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isActive: true,
+      },
+    )
+    res.status(201).json({
+      message: 'Project activated',
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while activating a project',
+      error,
+    })
+  }
+}
+
+const deactivateProject = async (req, res) => {
+  const { id } = req.params
+  try {
+    await Project.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isActive: false,
+      },
+    )
+    res.status(201).json({
+      message: 'Project deactivated',
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while deactivating a project',
+      error,
+    })
+  }
+}
+
+const removeProject = async () => {
+  const { id } = req.params
+  try {
+    await Project.findByIdAndRemove({ _id: id })
+    res.status(201).json({
+      message: 'Project deleted',
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while deleting a project',
+      error,
+    })
+  }
+}
+
 export default {
   createProject,
+  GetProjects,
   GetAllProjects,
   GetProjectById,
   UpdateProject,
   addCategoryToProject,
+  activateProject,
+  deactivateProject,
+  removeProject,
 }

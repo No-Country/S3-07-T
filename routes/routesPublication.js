@@ -6,6 +6,7 @@ const {
   addPublication,
   listPublications,
   getPublicationById,
+  getPublicationByIdAllComments,
   updatePublication,
   removePublication,
   likePublication,
@@ -17,6 +18,8 @@ router.post('/publication', addPublication)
 router.get('/publication', listPublications)
 
 router.get('/publication/:id', getPublicationById)
+
+router.get('/publication_all_comments/:id', getPublicationByIdAllComments)
 
 router.put('/publication/:id', updatePublication)
 
