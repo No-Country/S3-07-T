@@ -108,8 +108,4 @@ export default {
   listUser,
   deleteUser,
   editEmail,
-<<<<<<< HEAD
-};
-=======
 }
->>>>>>> 867f7439fb711b26284395cea568532d67afddb0

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import { ModulesOption } from '@babel/preset-env/lib/options.js'
->>>>>>> 867f7439fb711b26284395cea568532d67afddb0
 import { Project } from '../models/project.js'
 
 const createProject = async (req, res) => {
