@@ -4,6 +4,7 @@ const addTechnology = async (req, res) => {
   try {
     const tech = await Technology.create({
       name: req.body.name,
+      image: req.body.image,
     })
     res.status(201).json(tech)
   } catch (e) {
@@ -56,7 +57,7 @@ const updateTechnology = async (req, res) => {
   try {
     const tech = await Technology.findByIdAndUpdate(
       { _id: req.params.id },
-      { name: req.body.name },
+      { name: req.body.name, image: req.body.image },
     )
     res.status(205).json(tech)
   } catch (e) {

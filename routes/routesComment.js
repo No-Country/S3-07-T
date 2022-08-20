@@ -8,6 +8,8 @@ const {
   addComment,
   getCommentById,
   updateComment,
+  activateComment,
+  deactivateComment,
   removeComment,
   likeComment,
 } = commentController
@@ -22,4 +24,8 @@ router.delete('/comment/:id', removeComment)
 
 router.patch('/comment/:id', likeComment)
 
-module.exports = router
+router.patch('/comment_activate/:id', activateComment)
+
+router.patch('/comment_deactivate/:id', deactivateComment)
+
+export default router

@@ -21,7 +21,9 @@ const addComment = async (req, res) => {
       res.status(200).json(publicationCommented)
     }
   } catch (e) {
-    res.status(500).json(e)
+    res.status(500).json({
+      message: 'Error while adding comment',
+    })
   }
 }
 
@@ -38,7 +40,7 @@ const getCommentById = async (req, res) => {
     }
   } catch (e) {
     res.status(500).json({
-      message: 'Error while...',
+      message: 'Error while finding comment',
     })
   }
 }
@@ -95,6 +97,49 @@ const likeComment = async (req, res) => {
     })
   }
 }
+
+const activateComment = async (req, res) => {
+  const { id } = req.params
+  try {
+    await Comment.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isActive: true,
+      },
+    )
+    res.status(200).json({
+      message: 'Comment activated',
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error while activating a comment',
+    })
+  }
+}
+
+const deactivateComment = async (req, res) => {
+  const { id } = req.params
+  try {
+    await Comment.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        isActive: false,
+      },
+    )
+    res.status(200).json({
+      message: 'Comment deactivated',
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error while activating a comment',
+    })
+  }
+}
+
 const removeComment = async (req, res) => {
   const { id } = req.params
   try {
@@ -114,5 +159,7 @@ export default {
   getCommentById,
   updateComment,
   likeComment,
+  activateComment,
+  deactivateComment,
   removeComment,
 }

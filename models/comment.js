@@ -15,6 +15,10 @@ const commentSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'user',
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
 })
 
 const Comment = mongoose.model('comment', commentSchema)

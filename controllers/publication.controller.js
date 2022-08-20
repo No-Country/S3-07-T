@@ -1,4 +1,5 @@
 import Publication from '../models/publication'
+import Category from '../models/category'
 
 const addPublication = async (req, res) => {
   const {
@@ -29,9 +30,35 @@ const addPublication = async (req, res) => {
   }
 }
 
-const listPublications = async (req, res, next) => {
+const addCategoryToPublication = async (req, res) => {
+  const { publicationId, categoryId } = req.body
+  await Publication.findByIdAndUpdate(publicationId, {
+    $push: { categories: categoryId },
+  })
+  await Category.findByIdAndUpdate(categoryId, {
+    $push: { publications: publicationId },
+  })
+  res.status(200).json({
+    message: 'Category added to publication!',
+  })
   try {
-    const publications = await Publication.find().select('title image')
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while adding category to publication',
+      e,
+    })
+  }
+}
+
+const listPublications = async (req, res) => {
+  const { page, limit } = req.query
+  const options = {
+    select: 'title image',
+    page: page ?? 1,
+    limit: limit ?? 10,
+  }
+  try {
+    const publications = await Publication.paginate({}, options)
     res.status(200).json(publications)
   } catch (e) {
     res.status(500).json({
@@ -41,12 +68,29 @@ const listPublications = async (req, res, next) => {
   }
 }
 
-const getPublicationById = async (req, res, next) => {
+const getPublicationById = async (req, res) => {
   const { id } = req.params
   try {
     const publication = await Publication.findOne({
       _id: id,
-    }).populate('comments')
+    }).populate([
+      {
+        path: 'comments',
+        model: 'comment',
+        match: {
+          isActive: { $eq: true },
+        },
+      },
+      {
+        path: 'author',
+        model: 'user',
+        select: 'firstName lastName email',
+      },
+      {
+        path: 'categories',
+        model: 'category',
+      },
+    ])
     if (!publication) {
       res.status(404).json({
         message: 'Publication not found',
@@ -62,7 +106,42 @@ const getPublicationById = async (req, res, next) => {
   }
 }
 
-const updatePublication = async (req, res, next) => {
+const getPublicationByIdAllComments = async (req, res) => {
+  const { id } = req.params
+  try {
+    const publication = await Publication.findOne({
+      _id: id,
+    }).populate([
+      {
+        path: 'comments',
+        model: 'comment',
+      },
+      {
+        path: 'author',
+        model: 'user',
+        select: 'firstName lastName email',
+      },
+      {
+        path: 'categories',
+        model: 'category',
+      },
+    ])
+    if (!publication) {
+      res.status(404).json({
+        message: 'Publication not found',
+      })
+    } else {
+      res.status(200).json(publication)
+    }
+  } catch (e) {
+    res.status(500).json({
+      message: 'Error while searching publication',
+      e,
+    })
+  }
+}
+
+const updatePublication = async (req, res) => {
   const { id } = req.params
   const {
     title,
@@ -74,7 +153,7 @@ const updatePublication = async (req, res, next) => {
     author,
   } = req.body
   try {
-    const publication = await Publication.findByIdAndUpdate(
+    await Publication.findByIdAndUpdate(
       {
         _id: id,
       },
@@ -88,7 +167,9 @@ const updatePublication = async (req, res, next) => {
         author,
       },
     )
-    res.status(205).json(publication)
+    res.status(205).json({
+      message: 'Publication activated',
+    })
   } catch (e) {
     res.status(500).json({
       message: 'Error while updating publication',
@@ -118,8 +199,8 @@ const likePublication = async (req, res) => {
           likes,
         },
       )
-      res.status(200).json({
-        message: 'Publication liked!',
+      res.status(205).json({
+        message: 'Publication deactivated',
       })
     }
   } catch (e) {
@@ -130,7 +211,7 @@ const likePublication = async (req, res) => {
   }
 }
 
-const removePublication = async (req, res, next) => {
+const removePublication = async (req, res) => {
   const { id } = req.params
   try {
     const publication = await Publication.findByIdAndDelete({
@@ -149,7 +230,9 @@ export default {
   addPublication,
   listPublications,
   getPublicationById,
+  getPublicationByIdAllComments,
   updatePublication,
+  addCategoryToPublication,
   likePublication,
   removePublication,
 }

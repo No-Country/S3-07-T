@@ -16,6 +16,7 @@ import routesTeam from './routes/routesTeam'
 import routesPublication from './routes/routesPublication'
 //import routesProject from './routes/routesProject'
 import routesComment from './routes/routesComment'
+import routesCategory from './routes/routesCategory'
 
 const app = express()
 
@@ -32,11 +33,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
-    origin: `http://localhost:${FRONTEND_PORT}`, // <-- location of the react app were connecting to
+    origin: '*', // <-- location of the react app were connecting to
     credentials: true,
   }),
 )
 app.use(morgan('tiny'))
+app.use(express.static(__dirname + '/public'))
 
 //Routes
 
@@ -48,5 +50,6 @@ app.use('/api', routesPublication)
 //app.use('/api', routesProject)
 app.use('/api', routesUser)
 app.use('/api', routesComment)
+app.use('/api', routesCategory)
 
 export default app
