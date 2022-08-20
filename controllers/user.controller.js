@@ -1,4 +1,8 @@
 import User from '../models/user'
+const imgbbUploader = require("imgbb-uploader");
+let fs = require('fs')
+require('dotenv').config();
+let path = require('path')
 
 const searchxId = async (req, res) => {
   const id = req.params.id
@@ -15,6 +19,7 @@ const searchxId = async (req, res) => {
       email: buscado.email,
       role: buscado.role,
       status: buscado.status,
+      avatar:buscado.avatar
     }
 
     res.status(200).json({
@@ -126,11 +131,36 @@ else {
 }
 }
 
+
+const uploadAvatar = async (req, res, next) => {
+  try {
+    let response = await imgbbUploader(process.env.API_KEY_IMGBB, path.join(__dirname, `../files/${req.file.filename}`))
+    if(response){
+      console.log(fs.existsSync(path.join(__dirname, '../files/' + req.file.filename)))
+      if (fs.existsSync(path.join(__dirname, '../files/' + req.file.filename)) && req.file.filename !== "default-image.png") {
+        fs.unlinkSync(path.join(__dirname,`../files/${req.file.filename}`))
+      } else {
+        console.log('no se encontro el archivo')
+      }
+    }
+    await User.findByIdAndUpdate(req.params.id, {avatar : response.url}, { userFindModify: false })
+    res.status(200).json({
+      msg: "usuario actualizado",
+      response
+    });
+    // res.sendFile(path.join(__dirname,'../files/' + req.file.filename))
+  } catch (error) {
+    next(error)
+  }
+  
+}
+
 export default {
   searchxId,
   editUser,
   listUser,
   deleteUser,
   editEmail,
-  searchxName
+  searchxName,
+  uploadAvatar
 }
