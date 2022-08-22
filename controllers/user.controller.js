@@ -112,23 +112,38 @@ const deleteUser = async (req, res, next) => {
   }
 }
 
-const searchxName=async(req,res)=>{
-  const {firstName}=req.body
-const search=await User.find({firstName:firstName},{password:0})
-if(search.length>0){
-try{
-res.status(200).json({
-  search
-})
-}catch(error){
-  console.log(error)
-}
-}
-else {
-  res.status(204).json({
-    msg:"usuario no encontrado"
-  })
-}
+const searchxName = async(req, res) => {
+  try {
+    const query = req.query
+    const firstQuery = query.firstQuery || " "
+    const secondQuery = query.secondQuery
+    let search
+  
+    // Pueden venir dos querys o uno, el primer query puede ser tanto un nombre como un apellido por eso no se especifican los querys y lo mismo con el segundo query 
+    if(firstQuery !== undefined && secondQuery !== undefined) {
+      search = await User.find({ firstName: firstQuery, lastName: secondQuery }, {password:0})
+      if (search.length === 0) {
+        search = await User.find({ firstName: secondQuery, lastName: firstQuery }, {password:0})
+      }
+    }else{
+      search = await User.find({ firstName: firstQuery }, {password:0})
+      if (search.length === 0) {
+        search = await User.find({ lastName: firstQuery }, {password:0})
+      }
+    }
+  
+    if(search.length > 0){
+      res.status(200).json({search})
+    }else {
+      res.status(204).json({
+      search: [],
+      msg:"usuario no encontrado"
+      })
+    }
+  } catch (error) {
+    console.log(error)
+    res.status(503).send(error)
+  }
 }
 
 
