@@ -61,19 +61,24 @@ const addCategoryToProject = async (req, res) => {
 }
 
 const GetProjects = async (req, res) => {
-  const { page, limit } = req.query
+  const { page, limit, title } = req.query
   const options = {
-    select: 'title image isActive',
     page: page ?? 1,
     limit: limit ?? 10,
   }
+  let findAll = {
+    isActive: true,
+  }
+  const queryByTitle = {
+    isActive: true,
+    title: { $regex: title, $options: 'i' },
+  }
+  let query = findAll
+
+  if (title) query = queryByTitle
+
   try {
-    const projects = await Project.paginate(
-      {
-        isActive: true,
-      },
-      options,
-    )
+    const projects = await Project.paginate(query, options)
     res.status(200).json(projects)
   } catch (error) {
     res.status(500).json({
@@ -86,7 +91,6 @@ const GetProjects = async (req, res) => {
 const GetAllProjects = async (req, res) => {
   const { page, limit } = req.query
   const options = {
-    select: 'title image isActive',
     page: page ?? 1,
     limit: limit ?? 10,
   }
