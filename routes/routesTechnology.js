@@ -15,14 +15,14 @@ const {
   removeTechnology,
 } = technologyController
 
-router.post('/tech', auth, addTechnology)
+router.post('/tech', addTechnology)
 
-router.get('/tech', auth, listTechnologies)
+router.get('/tech', listTechnologies)
 
-router.get('/tech/:id', auth, getTechnologyById)
+router.get('/tech/:id', getTechnologyById)
 
-router.put('/tech/:id', auth, updateTechnology)
+router.put('/tech/:id', updateTechnology)
 
-router.delete('/tech/:id', auth, removeTechnology)
+router.delete('/tech/:id', removeTechnology)
 
 export default router
