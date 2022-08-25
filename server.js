@@ -28,6 +28,12 @@ const FRONTEND_PORT = process.env.FRONTEND_PORT ?? 3000
 //Connection to DataBase
 connection()
 
+const PORT = process.env.PORT ?? 3001
+
+app.listen(PORT, () => {
+  console.log(`Server is starting at ${PORT}`)
+})
+
 //Middlewares
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
