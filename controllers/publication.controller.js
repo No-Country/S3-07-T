@@ -33,10 +33,10 @@ const addPublication = async (req, res) => {
 const addCategoryToPublication = async (req, res) => {
   const { publicationId, categoryId } = req.body
   await Publication.findByIdAndUpdate(publicationId, {
-    $push: { categories: categoryId },
+    $addToSet: { categories: categoryId },
   })
   await Category.findByIdAndUpdate(categoryId, {
-    $push: { publications: publicationId },
+    $addToSet: { publications: publicationId },
   })
   res.status(200).json({
     message: 'Category added to publication!',

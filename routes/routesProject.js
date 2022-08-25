@@ -9,6 +9,7 @@ const {
   GetProjectById,
   UpdateProject,
   addCategoryToProject,
+  addTechnologyToProject,
   activateProject,
   deactivateProject,
   removeProject,
@@ -27,6 +28,8 @@ router.get('/project/:id', GetProjectById)
 router.put('/project/:id', UpdateProject)
 
 router.patch('/project_add_category', addCategoryToProject)
+
+router.patch('/project_add_technology', addTechnologyToProject)
 
 router.patch('/project_activate/:id', activateProject)
 
