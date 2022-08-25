@@ -13,6 +13,7 @@ const {
   activateProject,
   deactivateProject,
   removeProject,
+  updateImageProject
 } = projectController
 
 const router = Router()
@@ -26,6 +27,8 @@ router.get('/project_all', GetAllProjects)
 router.get('/project/:id', GetProjectById)
 
 router.put('/project/:id', UpdateProject)
+
+router.put('/project/:id', updateImageProject)
 
 router.patch('/project_add_category', addCategoryToProject)
 
