@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const { Schema } = mongoose
 
@@ -37,6 +38,8 @@ const teamSchema = new Schema({
     default: true,
   },
 })
+
+teamSchema.plugin(mongoosePaginate)
 
 const Team = mongoose.model('team', teamSchema)
 

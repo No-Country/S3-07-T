@@ -3,8 +3,10 @@ import roleController from './../controllers/role.controller'
 
 const router = Router()
 
-const { rolesCont } = roleController
+const { rolesCont, listRoles } = roleController
 
 router.post('/roles', rolesCont)
+
+router.get('/role', listRoles)
 
 export default router

@@ -14,7 +14,7 @@ import routesRoles from './routes/routesRoles'
 import routesTech from './routes/routesTechnology'
 import routesTeam from './routes/routesTeam'
 import routesPublication from './routes/routesPublication'
-//import routesProject from './routes/routesProject'
+import routesProject from './routes/routesProject'
 import routesComment from './routes/routesComment'
 import routesCategory from './routes/routesCategory'
 
@@ -53,7 +53,7 @@ app.use('/api', routesRoles)
 app.use('/api', routesTech)
 app.use('/api', routesTeam)
 app.use('/api', routesPublication)
-//app.use('/api', routesProject)
+app.use('/api', routesProject)
 app.use('/api', routesUser)
 app.use('/api', routesComment)
 app.use('/api', routesCategory)

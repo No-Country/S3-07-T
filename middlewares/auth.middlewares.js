@@ -2,7 +2,7 @@ import User from '../models/user'
 import Role from '../models/role'
 import jwt from 'jsonwebtoken'
 
-const Auth = async (req, res, next) => {
+const auth = async (req, res, next) => {
   try {
     const strToken = req.headers.authorization
 
@@ -18,6 +18,24 @@ const Auth = async (req, res, next) => {
     next()
   } catch (error) {
     res.status(500).json({ error })
+  }
+}
+
+const isSameUser = async (req, res, next) => {
+  const strToken = req.headers.authorization
+  const { id } = req.params
+  try {
+    const token = strToken.includes(' ') ? strToken.split(' ')[1] : strToken
+    const key = jwt.verify(token, process.env.SECRET)
+
+    if (key.id != id)
+      res.status(403).json({
+        msg: 'You can only update your own profile',
+      })
+
+    next()
+  } catch (error) {
+    res.status(500).json(error)
   }
 }
 
@@ -59,4 +77,4 @@ const isModerator = async (req, res, next) => {
   }
 }
 
-export default { Auth, isAdmin, isModerator }
+export default { auth, isAdmin, isModerator, isSameUser }

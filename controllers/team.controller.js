@@ -17,8 +17,23 @@ const addTeam = async (req, res) => {
   }
 }
 const listTeams = async (req, res) => {
+  const { page, limit, team } = req.query
+  let query = {}
+  const options = {
+    page: page ?? 1,
+    limit: limit ?? 10,
+  }
+  const findByTeam = {
+    $or: [
+      { cohortType: { $regex: team, $options: '-i' } },
+      { cohortNumber: { $regex: team, $options: '-i' } },
+      { group: { $regex: team, $options: '-i' } },
+    ],
+  }
+  if (team) query = findByTeam
+
   try {
-    const teams = await Team.find().populate('technologies', 'name')
+    const teams = await Team.paginate(query, options)
     res.status(200).json(teams)
   } catch (e) {
     res.status(500).json(e)

@@ -29,14 +29,18 @@ const projectSchema = new Schema(
       type: Schema.ObjectId,
       ref: 'team',
     },
-    teamLeader: {
-      type: Schema.ObjectId,
-      required: true,
-    },
     categories: [
       {
         type: Schema.ObjectId,
         ref: 'category',
+        unique: true
+      },
+    ],
+    technologies: [
+      {
+        type: Schema.ObjectId,
+        ref: 'technology',
+        unique: true
       },
     ],
     isActive: {
