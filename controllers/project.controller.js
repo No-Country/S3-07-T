@@ -1,5 +1,6 @@
 import Project from '../models/project.js'
 import Category from '../models/category.js'
+import Technology from '../models/technology.js'
 
 const createProject = async (req, res) => {
   const {
@@ -8,9 +9,9 @@ const createProject = async (req, res) => {
     image,
     author,
     video,
-    teamLeader,
     team,
     categories,
+    technologies,
   } = req.body
   try {
     const project = await Project.create({
@@ -19,9 +20,9 @@ const createProject = async (req, res) => {
       image,
       author,
       video,
-      teamLeader,
       team,
       categories,
+      technologies,
     })
     res.status(201).json({
       message: 'Project created',
@@ -41,14 +42,14 @@ const addCategoryToProject = async (req, res) => {
     await Project.findByIdAndUpdate(
       projectId,
       {
-        $push: { categories: categoryId },
+        $addToSet: { categories: categoryId },
       },
       { new: true, useFindAndModify: false },
     )
     await Category.findByIdAndUpdate(
       categoryId,
       {
-        $push: { projects: projectId },
+        $addToSet: { projects: projectId },
       },
       { new: true, useFindAndModify: false },
     )
@@ -57,6 +58,31 @@ const addCategoryToProject = async (req, res) => {
     res
       .status(500)
       .json({ message: 'Error while adding category to project', error })
+  }
+}
+
+const addTechnologyToProject = async (req, res) => {
+  const { projectId, technologyId } = req.body
+  try {
+    await Project.findByIdAndUpdate(
+      projectId,
+      {
+        $addToSet: { technologies: technologyId },
+      },
+      { new: true, useFindAndModify: false },
+    )
+    await Technology.findByIdAndUpdate(
+      technologyId,
+      {
+        $addToSet: { projects: projectId },
+      },
+      { new: true, useFindAndModify: false },
+    )
+    res.send({ message: 'Technology added to project' })
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Error while adding technology to project', error })
   }
 }
 
@@ -89,13 +115,23 @@ const GetProjects = async (req, res) => {
 }
 
 const GetAllProjects = async (req, res) => {
-  const { page, limit } = req.query
+  const { page, limit, title } = req.query
+  let query = {}
   const options = {
     page: page ?? 1,
     limit: limit ?? 10,
   }
+  const findAll = {
+    isActive: true,
+  }
+  const findByTitle = {
+    isActive: true,
+    title: { $regex: title, $options: 'i' },
+  }
+  query = findAll
+  if (title) query = findByTitle
   try {
-    const projects = await Project.paginate({}, options)
+    const projects = await Project.paginate(query, options)
     res.status(200).json(projects)
   } catch (error) {
     res.status(500).json({
@@ -117,11 +153,6 @@ const GetProjectById = async (req, res) => {
         select: 'firstname lastname email avatar',
       },
       {
-        path: 'teamLeader',
-        model: 'user',
-        select: 'firstname lastname email avatar',
-      },
-      {
         path: 'team',
         model: 'team',
         select: 'cohortType cohortNumber group',
@@ -129,7 +160,10 @@ const GetProjectById = async (req, res) => {
       {
         path: 'categories',
         model: 'category',
-        select: 'name',
+      },
+      {
+        path: 'technologies',
+        model: 'technology',
       },
     ])
     if (!project) {
@@ -155,9 +189,9 @@ const UpdateProject = async (req, res) => {
     image,
     author,
     video,
-    teamLeader,
     team,
     categories,
+    technologies,
   } = req.body
   try {
     const project = await Project.findByIdAndUpdate(
@@ -170,9 +204,9 @@ const UpdateProject = async (req, res) => {
         image,
         author,
         video,
-        teamLeader,
         team,
         categories,
+        technologies,
       },
     )
     if (!project) {
@@ -256,6 +290,7 @@ export default {
   GetProjectById,
   UpdateProject,
   addCategoryToProject,
+  addTechnologyToProject,
   activateProject,
   deactivateProject,
   removeProject,

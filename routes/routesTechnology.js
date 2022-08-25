@@ -5,7 +5,7 @@ import AuthMiddleware from '../middlewares/auth.middlewares'
 
 const router = Router()
 
-const { Auth } = AuthMiddleware
+const { auth } = AuthMiddleware
 
 const {
   addTechnology,
@@ -15,14 +15,14 @@ const {
   removeTechnology,
 } = technologyController
 
-router.post('/tech', Auth, addTechnology)
+router.post('/tech', auth, addTechnology)
 
-router.get('/tech', listTechnologies)
+router.get('/tech', auth, listTechnologies)
 
-router.get('/tech/:id', getTechnologyById)
+router.get('/tech/:id', auth, getTechnologyById)
 
-router.put('/tech/:id', updateTechnology)
+router.put('/tech/:id', auth, updateTechnology)
 
-router.delete('/tech/:id', removeTechnology)
+router.delete('/tech/:id', auth, removeTechnology)
 
 export default router

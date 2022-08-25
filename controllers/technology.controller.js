@@ -16,8 +16,15 @@ const addTechnology = async (req, res) => {
 }
 
 const listTechnologies = async (req, res) => {
+  const { name } = req.query
+  let query = {}
+  const queryByName = {
+    name: { $regex: name, $options: 'i' },
+  }
+  if (name) query = queryByName
+
   try {
-    const techs = await Technology.find()
+    const techs = await Technology.find(query)
     if (!techs) {
       res.status(404).json({
         message: "there's no technologies",
@@ -37,7 +44,7 @@ const getTechnologyById = async (req, res) => {
   try {
     const tech = await Technology.findOne({
       _id: req.params.id,
-    })
+    }).populate('categories technologies')
     if (!tech) {
       res.status(404).json({
         message: 'Technology not found',
