@@ -121,9 +121,7 @@ const GetAllProjects = async (req, res) => {
     page: page ?? 1,
     limit: limit ?? 10,
   }
-  const findAll = {
-    isActive: true,
-  }
+  const findAll = {}
   const findByTitle = {
     isActive: true,
     title: { $regex: title, $options: 'i' },
