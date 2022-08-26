@@ -13,6 +13,7 @@ const {
   activateProject,
   deactivateProject,
   removeProject,
+  removeElement,
 } = projectController
 
 const router = Router()
@@ -34,6 +35,8 @@ router.patch('/project_add_technology', addTechnologyToProject)
 router.patch('/project_activate/:id', activateProject)
 
 router.patch('/project_deactivate/:id', deactivateProject)
+
+router.patch('/project_remove_element', removeElement)
 
 router.delete('/project/:id', removeProject)
 

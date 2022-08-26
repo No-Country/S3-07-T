@@ -41,10 +41,11 @@ const listTechnologies = async (req, res) => {
 }
 
 const getTechnologyById = async (req, res) => {
+  const { id } = req.params
   try {
     const tech = await Technology.findOne({
-      _id: req.params.id,
-    }).populate('categories technologies')
+      _id: id
+    })
     if (!tech) {
       res.status(404).json({
         message: 'Technology not found',
