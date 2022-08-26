@@ -288,7 +288,7 @@ const removeProject = async () => {
 }
 
 const updateImageProject=async(req,res,next)=>{
-  console.log(req.params.id)
+
   try {
     let response = await imgbbUploader(
       process.env.API_KEY_IMGBB,
@@ -307,9 +307,10 @@ const updateImageProject=async(req,res,next)=>{
         console.log('no se encontro el archivo')
       }
     }
-    
+
     await Project.findByIdAndUpdate(
       req.params._id,
+
       { image: response.url },
       { userFindModify: false },
     )
