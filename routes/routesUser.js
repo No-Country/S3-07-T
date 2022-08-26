@@ -16,22 +16,16 @@ const {
 } = userController
 const upload = require('../middlewares/uploadAvatar')
 
-router.get('/searchxId/:id', auth, searchxId)
+router.get('/searchxId/:id', searchxId)
 
-router.put('/editUser/:id', auth, isSameUser, editUser)
+router.put('/editUser/:id', editUser)
 
-router.get('/listUser', auth, listUser)
+router.get('/listUser', listUser)
 
-router.get('/deleteUser/:id', auth, deleteUser)
+router.get('/deleteUser/:id', deleteUser)
 
-router.put('/editEmail/:id', auth, isSameUser, editEmail)
+router.put('/editEmail/:id', editEmail)
 
-router.put(
-  '/editAvatar/:id',
-  auth,
-  isSameUser,
-  upload.single('avatar'),
-  uploadAvatar,
-)
+router.put('/editAvatar/:id', upload.single('avatar'), uploadAvatar)
 
 export default router

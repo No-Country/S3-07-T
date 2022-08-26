@@ -1,55 +1,95 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/user'
-import Roles from '../models/role'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
+
+import roles from './../helpers/roles'
 
 dotenv.config()
 
 const SECRET = process.env.SECRET
+const { USER, ADMIN, MODERATOR } = roles
 
 const signUp = async (req, res) => {
-  const {
-    email,
-    password,
-    roles,
-    rolDes,
-    firstName,
-    lastName,
-    phone,
-  } = req.body
+  const { email, password, rolDes, firstName, lastName, phone } = req.body
   try {
     const passwordHash = await User.passwordCode(password)
     const newUser = new User({
       email: email,
       password: passwordHash,
+      role: USER.name,
       rolDes: rolDes,
       firstName: firstName,
       lastName: lastName,
       phone: phone,
-      //password: password,
     })
-
-    if (roles) {
-      const searchRoles = await Roles.find({ name: { $in: roles } })
-      newUser.roles = searchRoles.map((role) => role._id)
-    } else {
-      const role = await Roles.findOne({ name: 'user' })
-      newUser.roles = [role._id]
-      newUser.roles
-    }
     await newUser.save()
-    //const saveUser=await newUser.save()
-    const token = jwt.sign({ id: newUser._id }, 'secret', { expiresIn: '1d' })
+    const token = jwt.sign({ id: newUser._id }, SECRET, { expiresIn: '12d' })
     const user = {
       token: token,
       email: newUser.email,
       id: newUser.id,
     }
-    res.status(200).json({ user })
+    res.status(200).json({ msg: 'User created', user })
   } catch (error) {
     res.status(500).json({
-      message: 'error while creating a new user',
+      message: 'Error while creating a new user',
+    })
+  }
+}
+
+const signUpModerator = async (req, res) => {
+  const { email, password, rolDes, firstName, lastName, phone } = req.body
+  try {
+    const passwordHash = await User.passwordCode(password)
+    const newUser = new User({
+      email: email,
+      password: passwordHash,
+      role: MODERATOR.name,
+      rolDes: rolDes,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+    })
+    await newUser.save()
+    const token = jwt.sign({ id: newUser._id }, SECRET, { expiresIn: '12d' })
+    const user = {
+      token: token,
+      email: newUser.email,
+      id: newUser.id,
+    }
+    res.status(200).json({ msg: 'User created', user })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while creating a new user',
+    })
+  }
+}
+
+const signUpAdmin = async (req, res) => {
+  const { email, password, rolDes, firstName, lastName, phone } = req.body
+  try {
+    const passwordHash = await User.passwordCode(password)
+    const newUser = new User({
+      email: email,
+      password: passwordHash,
+      role: ADMIN.name,
+      rolDes: rolDes,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+    })
+    await newUser.save()
+    const token = jwt.sign({ id: newUser._id }, SECRET, { expiresIn: '12d' })
+    const user = {
+      token: token,
+      email: newUser.email,
+      id: newUser.id,
+    }
+    res.status(200).json({ msg: 'User created', user })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while creating a new user',
     })
   }
 }
@@ -69,22 +109,24 @@ const signIn = async (req, res) => {
         })
       } else {
         res.status(204).json({
-          msg: 'password incorrecto',
+          msg: 'wrong password',
         })
       }
     } else {
       res.status(204).json({
-        msg: 'email incorrecto',
+        msg: 'wrong email',
       })
     }
   } catch (error) {
     res.status(500).json({
-      message: 'error while creating a new user',
+      message: 'error while signIn',
     })
   }
 }
 
 export default {
   signUp,
+  signUpAdmin,
+  signUpModerator,
   signIn,
 }

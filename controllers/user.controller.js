@@ -84,9 +84,21 @@ const listUser = async (req, res) => {
   let query = {}
 
   const options = {
-    select: 'firstName lastName email',
+    select: {
+      password: 0,
+    },
     page: page ?? 1,
     limit: limit ?? 10,
+    populate: [
+      {
+        path: 'projects',
+        model: 'project',
+      },
+      {
+        path: 'teams',
+        model: 'team',
+      },
+    ],
   }
 
   const findByName = {

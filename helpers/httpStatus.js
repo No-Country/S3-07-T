@@ -36,5 +36,5 @@ const httpStatus = {
     GATEWAY_TIMEOUT: 504,
   };
   
-  module.exports = httpStatus;
+ export default httpStatus;
   

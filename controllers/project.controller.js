@@ -1,6 +1,8 @@
 import Project from '../models/project.js'
 import Category from '../models/category.js'
 import Technology from '../models/technology.js'
+import User from '../models/user.js'
+import Team from '../models/team.js'
 
 const createProject = async (req, res) => {
   const {
@@ -12,6 +14,7 @@ const createProject = async (req, res) => {
     team,
     categories,
     technologies,
+    participants,
   } = req.body
   try {
     const project = await Project.create({
@@ -23,7 +26,35 @@ const createProject = async (req, res) => {
       team,
       categories,
       technologies,
+      participants,
     })
+
+    await User.findByIdAndUpdate(author, {
+      $addToSet: { projects: project },
+    })
+
+    participants.map(async (participant) => {
+      await User.findByIdAndUpdate(participant, {
+        $addToSet: { participants: participant },
+      })
+    })
+
+    categories.map(async (category) => {
+      await Category.findByIdAndUpdate(category, {
+        $addToSet: { participants: category },
+      })
+    })
+
+    technologies.map(async (technology) => {
+      await Technology.findByIdAndUpdate(technology, {
+        $addToSet: { technologies: technology },
+      })
+    })
+
+    await Team.findByIdAndUpdate(team, {
+      $addToSet: { projects: project },
+    })
+
     res.status(201).json({
       message: 'Project created',
       project,
@@ -33,6 +64,25 @@ const createProject = async (req, res) => {
       message: 'Error while adding project',
       error,
     })
+  }
+}
+
+const removeElement = async (req, res) => {
+  const { project, technology } = req.body
+  try {
+    let msg = ''
+    if (technology) {
+      await Project.findByIdAndUpdate(project, {
+        $pull: { technologies: technology },
+      })
+      await Technology.findByIdAndUpdate(technology, {
+        $pull: { projects: project },
+      })
+      msg = 'Technology removed'
+    }
+    res.status(200).json({ msg })
+  } catch (error) {
+    res.status(500).json(error)
   }
 }
 
@@ -148,12 +198,17 @@ const GetProjectById = async (req, res) => {
       {
         path: 'author',
         model: 'user',
-        select: 'firstname lastname email avatar',
+        select: {
+          password: 0,
+        },
+      },
+      {
+        path: 'participants',
+        model: 'user',
       },
       {
         path: 'team',
         model: 'team',
-        select: 'cohortType cohortNumber group',
       },
       {
         path: 'categories',
@@ -292,4 +347,5 @@ export default {
   activateProject,
   deactivateProject,
   removeProject,
+  removeElement,
 }
