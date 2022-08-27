@@ -5,8 +5,6 @@ import User from '../models/user.js'
 const imgbbUploader = require('imgbb-uploader')
 let fs = require('fs')
 let path = require('path')
-import User from '../models/user.js'
-import Team from '../models/team.js'
 
 const createProject = async (req, res) => {
   const {
