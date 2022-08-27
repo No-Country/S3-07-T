@@ -2,7 +2,6 @@ import { Router } from 'express'
 
 import projectController from '../controllers/project.controller'
 
-
 const {
   createProject,
   GetProjects,
@@ -14,7 +13,7 @@ const {
   activateProject,
   deactivateProject,
   removeProject,
-  updateImageProject
+  updateImageProject,
   removeElement,
 } = projectController
 const upload = require('../middlewares/updateImageProject')
@@ -30,7 +29,7 @@ router.get('/project/:id', GetProjectById)
 
 router.put('/project/:id', UpdateProject)
 
-router.put('/projectImage/:id', upload.single('image'),updateImageProject)
+router.put('/projectImage/:id', upload.single('image'), updateImageProject)
 
 router.patch('/project_add_category', addCategoryToProject)
 

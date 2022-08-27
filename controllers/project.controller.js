@@ -1,6 +1,7 @@
 import Project from '../models/project.js'
 import Category from '../models/category.js'
 import Technology from '../models/technology.js'
+import User from '../models/category.js'
 const imgbbUploader = require('imgbb-uploader')
 let fs = require('fs')
 let path = require('path')
@@ -71,7 +72,7 @@ const createProject = async (req, res) => {
 }
 
 const removeElement = async (req, res) => {
-  const { project, technology } = req.body
+  const { project, technology, category, participant } = req.body
   try {
     let msg = ''
     if (technology) {
@@ -79,6 +80,22 @@ const removeElement = async (req, res) => {
         $pull: { technologies: technology },
       })
       await Technology.findByIdAndUpdate(technology, {
+        $pull: { projects: project },
+      })
+      msg = 'Technology removed'
+    } else if (category) {
+      await Project.findByIdAndUpdate(project, {
+        $pull: { categories: category },
+      })
+      await Category.findByIdAndUpdate(category, {
+        $pull: { projects: project },
+      })
+      msg = 'Category removed'
+    } else if (participant) {
+      await Project.findByIdAndUpdate(category, {
+        $pull: { categories: category },
+      })
+      await User.findByIdAndUpdate(participant, {
         $pull: { projects: project },
       })
       msg = 'Technology removed'
@@ -326,7 +343,6 @@ const deactivateProject = async (req, res) => {
   }
 }
 
-
 const removeProject = async () => {
   const { id } = req.params
   try {
@@ -342,8 +358,7 @@ const removeProject = async () => {
   }
 }
 
-const updateImageProject=async(req,res,next)=>{
-
+const updateImageProject = async (req, res, next) => {
   try {
     let response = await imgbbUploader(
       process.env.API_KEY_IMGBB,
@@ -390,6 +405,6 @@ export default {
   activateProject,
   deactivateProject,
   removeProject,
-  updateImageProject
+  updateImageProject,
   removeElement,
 }
