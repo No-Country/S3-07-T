@@ -34,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(
   cors({
     origin: '*', // <-- location of the react app were connecting to
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
     credentials: true,
   }),
 )

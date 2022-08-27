@@ -97,6 +97,10 @@ const listUser = async (req, res) => {
       {
         path: 'teams',
         model: 'team',
+        populate: {
+          path: 'projects',
+          model: 'project',
+        },
       },
     ],
   }
