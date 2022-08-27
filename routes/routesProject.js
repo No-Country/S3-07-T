@@ -13,9 +13,10 @@ const {
   activateProject,
   deactivateProject,
   removeProject,
+  updateImageProject,
   removeElement,
 } = projectController
-
+const upload = require('../middlewares/updateImageProject')
 const router = Router()
 
 router.post('/project', createProject)
@@ -27,6 +28,8 @@ router.get('/project_all', GetAllProjects)
 router.get('/project/:id', GetProjectById)
 
 router.put('/project/:id', UpdateProject)
+
+router.put('/projectImage/:id', upload.single('image'), updateImageProject)
 
 router.patch('/project_add_category', addCategoryToProject)
 

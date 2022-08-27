@@ -1,6 +1,10 @@
 import Project from '../models/project.js'
 import Category from '../models/category.js'
 import Technology from '../models/technology.js'
+import User from '../models/category.js'
+const imgbbUploader = require('imgbb-uploader')
+let fs = require('fs')
+let path = require('path')
 import User from '../models/user.js'
 import Team from '../models/team.js'
 
@@ -68,7 +72,7 @@ const createProject = async (req, res) => {
 }
 
 const removeElement = async (req, res) => {
-  const { project, technology } = req.body
+  const { project, technology, category, participant } = req.body
   try {
     let msg = ''
     if (technology) {
@@ -76,6 +80,22 @@ const removeElement = async (req, res) => {
         $pull: { technologies: technology },
       })
       await Technology.findByIdAndUpdate(technology, {
+        $pull: { projects: project },
+      })
+      msg = 'Technology removed'
+    } else if (category) {
+      await Project.findByIdAndUpdate(project, {
+        $pull: { categories: category },
+      })
+      await Category.findByIdAndUpdate(category, {
+        $pull: { projects: project },
+      })
+      msg = 'Category removed'
+    } else if (participant) {
+      await Project.findByIdAndUpdate(category, {
+        $pull: { categories: category },
+      })
+      await User.findByIdAndUpdate(participant, {
         $pull: { projects: project },
       })
       msg = 'Technology removed'
@@ -336,6 +356,42 @@ const removeProject = async () => {
   }
 }
 
+const updateImageProject = async (req, res, next) => {
+  try {
+    let response = await imgbbUploader(
+      process.env.API_KEY_IMGBB,
+      path.join(__dirname, `../files/${req.file.filename}`),
+    )
+    if (response) {
+      console.log(
+        fs.existsSync(path.join(__dirname, '../files/' + req.file.filename)),
+      )
+      if (
+        fs.existsSync(path.join(__dirname, '../files/' + req.file.filename)) &&
+        req.file.filename !== 'default-image.png'
+      ) {
+        fs.unlinkSync(path.join(__dirname, `../files/${req.file.filename}`))
+      } else {
+        console.log('no se encontro el archivo')
+      }
+    }
+
+    await Project.findByIdAndUpdate(
+      req.params._id,
+
+      { image: response.url },
+      { userFindModify: false },
+    )
+    res.status(200).json({
+      msg: 'nueva imagen a proyecto',
+      response,
+    })
+    // res.sendFile(path.join(__dirname,'../files/' + req.file.filename))
+  } catch (error) {
+    next(error)
+  }
+}
+
 export default {
   createProject,
   GetProjects,
@@ -347,5 +403,6 @@ export default {
   activateProject,
   deactivateProject,
   removeProject,
+  updateImageProject,
   removeElement,
 }
