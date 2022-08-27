@@ -2,6 +2,7 @@ import Project from '../models/project.js'
 import Category from '../models/category.js'
 import Technology from '../models/technology.js'
 import User from '../models/user.js'
+import Team from '../models/team.js'
 const imgbbUploader = require('imgbb-uploader')
 let fs = require('fs')
 let path = require('path')
