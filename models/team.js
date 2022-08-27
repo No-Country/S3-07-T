@@ -21,6 +21,10 @@ const teamSchema = new Schema({
     ref: 'user',
     required: false,
   },
+  project: {
+    type: Schema.ObjectId,
+    ref: 'project',
+  },
   technologies: [
     {
       type: Schema.ObjectId,

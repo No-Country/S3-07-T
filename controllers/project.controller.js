@@ -55,7 +55,7 @@ const createProject = async (req, res) => {
     })
 
     await Team.findByIdAndUpdate(team, {
-      $addToSet: { projects: project },
+      project: project,
     })
 
     res.status(201).json({
@@ -65,6 +65,25 @@ const createProject = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: 'Error while adding project',
+      error,
+    })
+  }
+}
+
+const addElement = async (req, res) => {
+  const { project, team } = req.body
+  let msg = ''
+  try {
+    if (team) {
+      await Project.findByIdAndUpdate(project, {
+        team,
+      })
+      msg = 'Team added to project'
+    }
+    res.status(200).json(msg)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error while adding element to project',
       error,
     })
   }

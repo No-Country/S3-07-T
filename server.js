@@ -1,10 +1,8 @@
 import express from 'express'
-//environment
-import dotenv from 'dotenv'
 //middlewares
-import cors from 'cors'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
+import { startCors } from './middlewares/cors.middleware'
 //connection
 import connection from './connection'
 //routes
@@ -20,27 +18,15 @@ import routesCategory from './routes/routesCategory'
 
 const app = express()
 
-//Environment variables
-dotenv.config()
-
-const FRONTEND_PORT = process.env.FRONTEND_PORT ?? 3000
-
 //Connection to DataBase
 connection()
 
 //Middlewares
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(
-  cors({
-    origin: '*', // <-- location of the react app were connecting to
-    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
-    credentials: true,
-  }),
-)
 app.use(morgan('tiny'))
 app.use(express.static(__dirname + '/public'))
-
+startCors(app)
 //Routes
 
 app.use('/api', routesAuth)
