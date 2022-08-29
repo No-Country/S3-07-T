@@ -36,6 +36,9 @@ const listTeams = async (req, res) => {
       {
         path: 'devs',
         model: 'user',
+        select: {
+          password: 0,
+        },
       },
       {
         path: 'project',
@@ -75,6 +78,9 @@ const listAllTeams = async (req, res) => {
       {
         path: 'devs',
         model: 'user',
+        select: {
+          password: 0,
+        },
       },
       {
         path: 'project',

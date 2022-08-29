@@ -43,13 +43,6 @@ const projectSchema = new Schema(
         unique: true,
       },
     ],
-    participants: [
-      {
-        type: Schema.ObjectId,
-        ref: 'user',
-        unique: true,
-      },
-    ],
     isActive: {
       type: Boolean,
       default: true,

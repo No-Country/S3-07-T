@@ -17,7 +17,6 @@ const createProject = async (req, res) => {
     team,
     categories,
     technologies,
-    participants,
   } = req.body
   try {
     const project = await Project.create({
@@ -29,7 +28,6 @@ const createProject = async (req, res) => {
       team,
       categories,
       technologies,
-      participants,
     })
 
     await User.findByIdAndUpdate(author, {
@@ -122,7 +120,7 @@ const addElement = async (req, res) => {
 }
 
 const removeElement = async (req, res) => {
-  const { project, technology, category, participant } = req.body
+  const { project, technology, category } = req.body
   try {
     let msg = ''
     if (technology) {
@@ -141,14 +139,6 @@ const removeElement = async (req, res) => {
         $pull: { projects: project },
       })
       msg = 'Category removed'
-    } else if (participant) {
-      await Project.findByIdAndUpdate(category, {
-        $pull: { categories: category },
-      })
-      await User.findByIdAndUpdate(participant, {
-        $pull: { projects: project },
-      })
-      msg = 'Technology removed'
     }
     res.status(200).json({ msg })
   } catch (error) {
@@ -161,6 +151,17 @@ const GetProjects = async (req, res) => {
   const options = {
     page: page ?? 1,
     limit: limit ?? 10,
+    populate: {
+      path: 'team',
+      model: 'team',
+      populate: {
+        path: 'devs',
+        model: 'user',
+        select: {
+          password: 0,
+        },
+      },
+    },
   }
   let findAll = {
     isActive: true,
@@ -190,6 +191,13 @@ const GetAllProjects = async (req, res) => {
   const options = {
     page: page ?? 1,
     limit: limit ?? 10,
+    populate: {
+      path: 'devs',
+      model: 'user',
+      select: {
+        password: 0,
+      },
+    },
   }
   const findAll = {}
   const findByTitle = {
@@ -223,12 +231,15 @@ const GetProjectById = async (req, res) => {
         },
       },
       {
-        path: 'participants',
-        model: 'user',
-      },
-      {
         path: 'team',
         model: 'team',
+        populate: {
+          path: 'devs',
+          model: 'user',
+          select: {
+            password: 0,
+          },
+        },
       },
       {
         path: 'categories',
