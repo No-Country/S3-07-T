@@ -1,4 +1,5 @@
 import Team from '../models/team'
+import User from '../models/user'
 
 const addTeam = async (req, res) => {
   try {
@@ -9,6 +10,7 @@ const addTeam = async (req, res) => {
       teamLeader: req.body.teamLeader,
       technologies: req.body.technologies,
       devs: req.body.devs,
+      isActive: true,
     })
     res.status(201).json(team)
   } catch (e) {
@@ -17,15 +19,29 @@ const addTeam = async (req, res) => {
     })
   }
 }
+
 const listTeams = async (req, res) => {
   const { page, limit, team } = req.query
-  let query = {}
+  let query = {
+    isActive: true,
+  }
   const options = {
     page: page ?? 1,
     limit: limit ?? 10,
-  }
-  const findAll = {
-    isActive: true,
+    populate: [
+      {
+        path: 'technologies',
+        model: 'technology',
+      },
+      {
+        path: 'devs',
+        model: 'user',
+      },
+      {
+        path: 'project',
+        model: 'project',
+      },
+    ],
   }
   const findByTeam = {
     $or: [
@@ -34,8 +50,8 @@ const listTeams = async (req, res) => {
       { group: { $regex: team, $options: '-i' } },
     ],
   }
+
   if (team) query = findByTeam
-  else query = findAll
 
   try {
     const teams = await Team.paginate(query, options)
@@ -51,6 +67,20 @@ const listAllTeams = async (req, res) => {
   const options = {
     page: page ?? 1,
     limit: limit ?? 10,
+    populate: [
+      {
+        path: 'technologies',
+        model: 'technology',
+      },
+      {
+        path: 'devs',
+        model: 'user',
+      },
+      {
+        path: 'project',
+        model: 'project',
+      },
+    ],
   }
   const findByTeam = {
     $or: [
@@ -107,6 +137,52 @@ const updateTeam = async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: 'Error while updating a team',
+    })
+  }
+}
+
+const addElement = async (req, res) => {
+  const { team, dev } = req.body
+  let msg = ''
+  try {
+    if (team) {
+      await Team.findByIdAndUpdate(team, {
+        $addToSet: { devs: dev },
+      })
+      await User.findByIdAndUpdate(dev, {
+        $addToSet: { teams: team },
+      })
+      msg = 'Dev added to team'
+    }
+    res.status(200).json({
+      msg,
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error adding an element',
+    })
+  }
+}
+
+const removeElement = async (req, res) => {
+  const { team, dev } = req.body
+  let msg = ''
+  try {
+    if (team) {
+      await Team.findByIdAndUpdate(team, {
+        $pull: { devs: dev },
+      })
+      await User.findByIdAndUpdate(dev, {
+        $pull: { teams: team },
+      })
+      msg = 'Dev added to team'
+    }
+    res.status(200).json({
+      msg,
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Error adding an element',
     })
   }
 }
@@ -170,6 +246,8 @@ export default {
   listAllTeams,
   getTeamById,
   updateTeam,
+  addElement,
+  removeElement,
   activateTeam,
   deactivateTeam,
   removeTeam,

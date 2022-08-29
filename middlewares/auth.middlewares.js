@@ -38,4 +38,20 @@ const isSameUser = async (req, res, next) => {
   }
 }
 
-export default { auth, isSameUser }
+const isAdmin = async (req, res, next) => {
+  const strToken = req.headers.authorization
+  try {
+    const token = strToken.includes(' ') ? strToken.split(' ')[1] : strToken
+    const key = jwt.verify(token, process.env.SECRET)
+
+    if (key.role != 'admin')
+      res.status(403).json({
+        msg: 'Unauthorized',
+      })
+    next()
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+export default { auth, isSameUser, isAdmin }
