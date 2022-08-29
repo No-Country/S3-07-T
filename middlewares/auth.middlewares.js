@@ -1,5 +1,4 @@
 import User from '../models/user'
-import Role from '../models/role'
 import jwt from 'jsonwebtoken'
 
 const auth = async (req, res, next) => {
@@ -39,42 +38,4 @@ const isSameUser = async (req, res, next) => {
   }
 }
 
-const isAdmin = async (req, res, next) => {
-  try {
-    const user = req.user
-    const roles = await Role.find({ _id: { $in: user.roles } })
-    console.log(roles)
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === 'admin') {
-        next()
-        return
-      }
-    }
-    return res
-      .status(401)
-      .json({ msg: 'You do not have administrator permissions' })
-  } catch (error) {
-    res.status(500).json(error)
-  }
-}
-
-const isModerator = async (req, res, next) => {
-  try {
-    const user = req.user
-    const roles = await Role.find({ _id: { $in: user.roles } })
-    console.log(roles)
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name === 'moderador') {
-        next()
-        return
-      }
-    }
-    return res
-      .status(401)
-      .json({ msg: 'You do not have moderator permissions' })
-  } catch (error) {
-    res.status(500).json(error)
-  }
-}
-
-export default { auth, isAdmin, isModerator, isSameUser }
+export default { auth, isSameUser }
