@@ -29,26 +29,30 @@ const createProject = async (req, res) => {
       categories,
       technologies,
     })
-
-    await User.findByIdAndUpdate(author, {
-      $addToSet: { projects: project },
-    })
-
-    categories.map(async (category) => {
-      await Category.findByIdAndUpdate(category, {
-        $addToSet: { participants: category },
+    if (author) {
+      await User.findByIdAndUpdate(author, {
+        $addToSet: { projects: project },
       })
-    })
-
-    technologies.map(async (technology) => {
-      await Technology.findByIdAndUpdate(technology, {
-        $addToSet: { technologies: technology },
+    }
+    if (categories) {
+      categories.map(async (category) => {
+        await Category.findByIdAndUpdate(category, {
+          $addToSet: { projects: project },
+        })
       })
-    })
-
-    await Team.findByIdAndUpdate(team, {
-      project: project,
-    })
+    }
+    if (technologies) {
+      technologies.map(async (technology) => {
+        await Technology.findByIdAndUpdate(technology, {
+          $addToSet: { projects: project },
+        })
+      })
+    }
+    if (team) {
+      await Team.findByIdAndUpdate(team, {
+        project: project,
+      })
+    }
 
     res.status(201).json({
       message: 'Project created',
