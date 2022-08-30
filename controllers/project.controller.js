@@ -34,12 +34,6 @@ const createProject = async (req, res) => {
       $addToSet: { projects: project },
     })
 
-    participants.map(async (participant) => {
-      await User.findByIdAndUpdate(participant, {
-        $addToSet: { participants: participant },
-      })
-    })
-
     categories.map(async (category) => {
       await Category.findByIdAndUpdate(category, {
         $addToSet: { participants: category },
