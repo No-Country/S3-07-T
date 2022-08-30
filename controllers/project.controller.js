@@ -152,13 +152,15 @@ const GetProjects = async (req, res) => {
     populate: {
       path: 'team',
       model: 'team',
-      populate: {
-        path: 'devs',
-        model: 'user',
-        select: {
-          password: 0,
+      populate: [
+        {
+          path: 'devs',
+          model: 'user',
+          select: {
+            password: 0,
+          },
         },
-      },
+      ],
     },
   }
   let findAll = {
@@ -190,19 +192,22 @@ const GetAllProjects = async (req, res) => {
     page: page ?? 1,
     limit: limit ?? 10,
     populate: {
-      path: 'devs',
-      model: 'user',
-      select: {
-        password: 0,
-      },
+      path: 'team',
+      model: 'team',
+      populate: [
+        {
+          path: 'devs',
+          model: 'user',
+          select: {
+            password: 0,
+          },
+        },
+      ],
     },
   }
-  const findAll = {}
   const findByTitle = {
-    isActive: true,
     title: { $regex: title, $options: 'i' },
   }
-  query = findAll
   if (title) query = findByTitle
   try {
     const projects = await Project.paginate(query, options)
