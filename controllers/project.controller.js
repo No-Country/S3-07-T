@@ -35,14 +35,14 @@ const createProject = async (req, res) => {
       })
     }
     if (categories) {
-      categories.map(async (category) => {
+      categories.forEach(async (category) => {
         await Category.findByIdAndUpdate(category, {
           $addToSet: { projects: project },
         })
       })
     }
     if (technologies) {
-      technologies.map(async (technology) => {
+      technologies.forEach(async (technology) => {
         await Technology.findByIdAndUpdate(technology, {
           $addToSet: { projects: project },
         })
