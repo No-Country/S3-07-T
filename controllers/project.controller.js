@@ -34,28 +34,27 @@ const createProject = async (req, res) => {
         $addToSet: { projects: project },
       })
     }
-    if (categories) {
+    if (categories.length) {
       categories.forEach(async (category) => {
         await Category.findByIdAndUpdate(category, {
           $addToSet: { projects: project },
         })
       })
     }
-    if (technologies) {
+    if (technologies.length) {
       technologies.forEach(async (technology) => {
         await Technology.findByIdAndUpdate(technology, {
           $addToSet: { projects: project },
         })
       })
     }
-
     if (team) {
+      let teamFind = await Team.findById(team)
       await Team.findByIdAndUpdate(team, {
-        project: project,
+        project: project
       })
-      let teamFind = await Team.findOne(team)
       for (let dev of teamFind.devs) {
-        await Team.findByIdAndUpdate(dev, {
+        await User.findByIdAndUpdate(dev, {
           $addToSet: { projects: project },
         })
       }
