@@ -18,4 +18,4 @@
 </p>
 <p align="center"> <b>Equipo S3-07-T No Country </b> </p>
 
-<h3 align="center">Deploy 🚀 : https://nc-comunity.onrender.com/</h3>
+<h3 align="center">Deploy 🚀 : https://nc-community.vercel.app/</h3>
